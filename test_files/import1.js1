@@ -1,5 +1,5 @@
 
-import abc from 'assert'; // ignore
+import abc from 'assert'; // strip-log
 
 const def = function () {
 

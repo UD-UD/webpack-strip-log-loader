@@ -1,5 +1,5 @@
 // hello
-import Logger from 'logger'; // ignore
+import Logger from 'logger'; // strip-log
 
 1+1;
 const loggerA = new Logger();

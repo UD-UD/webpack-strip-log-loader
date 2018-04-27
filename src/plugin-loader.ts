@@ -14,7 +14,7 @@ import {
 } from './utils';
 import { findChildNodes, nodeToString } from './utils/utils';
 
-const ignoreRegex = /^\/\/(\W*)ignore(\W*)$/g;
+const ignoreRegex = /^\/\/(\W*)strip-log(\W*)$/gi;
 
 function isNodeCommentTrigger(node: ts.Node, sourceFile: ts.SourceFile) {
   const comments = getComments(node, sourceFile.getFullText(), true);
