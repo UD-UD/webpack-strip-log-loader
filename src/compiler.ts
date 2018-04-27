@@ -24,6 +24,9 @@ export default function compileThis(
         },
       ],
     },
+    optimization: {
+      minimize: false,
+    },
   });
 
   compiler.outputFileSystem = new memoryfs();
