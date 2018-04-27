@@ -1,0 +1,7 @@
+// hello
+import Logger from 'logger'; // ignore
+
+1+1;
+const loggerA = new Logger();
+2+4;
+loggerA.log('hello');
