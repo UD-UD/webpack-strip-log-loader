@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   devtool: 'inline-source-map',
   entry: {
     "index": './src/index.ts',
@@ -25,5 +26,8 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'demo/index.html', to: 'dist/' }
     ])
-  ]
+  ],
+  watchOptions: {
+    poll: true
+  }
 }
