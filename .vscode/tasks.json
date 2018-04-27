@@ -23,7 +23,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher":[]
+      "problemMatcher": []
     },
     {
       "type": "npm",
@@ -54,6 +54,16 @@
       "problemMatcher": [
         "$eslint-stylish"
       ]
+    },
+    {
+      "type": "npm",
+      "script": "watch",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "watch:test",
+      "problemMatcher": []
     }
   ]
 }
