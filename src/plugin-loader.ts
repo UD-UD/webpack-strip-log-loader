@@ -378,27 +378,42 @@ class PluginLoader {
     );
   }
 
+  private getParentStatement(node: ts.Node): ts.Statement | undefined {
+    if (ts.isStatement(node)) {
+      return node;
+    } else if (node.parent) {
+      return this.getParentStatement(node.parent);
+    } else {
+      return undefined;
+    }
+  }
+
   private returntransformedSource(): string {
-    // Fix this - Temp hack
     let newText = this.sourceText;
 
-    const revSortedExpressions = [...this.restrictedExpressions].sort(
-      (expr1, expr2) => {
-        if (expr1.getEnd() !== expr2.getEnd()) {
-          if (expr1.getEnd() > expr2.getEnd()) {
-            return -1;
-          } else {
-            return +1;
-          }
+    const toRemoveExpressions: ts.Statement[] = [...this.restrictedExpressions]
+      .map((node: ts.Node) => {
+        return this.getParentStatement(node);
+      })
+      .filter(statementOrUndefined => {
+        return statementOrUndefined !== undefined;
+      }) as ts.Statement[];
+
+    const revSortedExpressions = toRemoveExpressions.sort((expr1, expr2) => {
+      if (expr1.getEnd() !== expr2.getEnd()) {
+        if (expr1.getEnd() > expr2.getEnd()) {
+          return -1;
         } else {
-          if (expr1.getStart() < expr2.getStart()) {
-            return -1;
-          } else {
-            return +1;
-          }
+          return +1;
+        }
+      } else {
+        if (expr1.getStart() < expr2.getStart()) {
+          return -1;
+        } else {
+          return +1;
         }
       }
-    );
+    });
 
     this.logFindDetails(revSortedExpressions);
 
@@ -438,7 +453,7 @@ class PluginLoader {
 
       newText =
         newText.slice(0, currentExpr.getStart()) +
-        'undefined' +
+        '' + // Replace with empty string
         newText.slice(currentExpr.getEnd());
     }
 
