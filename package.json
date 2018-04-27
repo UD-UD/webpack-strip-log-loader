@@ -9,18 +9,20 @@
     "email": "",
     "url": ""
   },
-  "keywords": [""],
-  "files": ["lib"],
+  "keywords": [
+    ""
+  ],
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib && rimraf coverage",
-    "format":
-      "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
+    "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "prepare": "npm run build",
-    "prebuild":
-      "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
+    "prebuild": "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
     "build": "tsc --pretty && webpack",
     "dev": "webpack-dev-server --progress --open-page dist/",
     "demo": "npm run build && http-server dist -o",
@@ -48,8 +50,10 @@
     "http-server": "^0.11.1",
     "jest": "^22.0.4",
     "jest-environment-node-debug": "^2.0.0",
+    "memory-fs": "^0.4.1",
     "prettier": "^1.5.2",
     "rimraf": "^2.0.0",
+    "tmp": "^0.0.33",
     "ts-jest": "^22.4.3",
     "ts-loader": "^4.1.0",
     "ts-node": "^3.2.0",
@@ -57,9 +61,8 @@
     "tslint-config-prettier": "^1.1.0",
     "typescript": "^2.3.0",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1",
-    "memory-fs": "^0.4.1",
-    "tmp": "^0.0.33"
+    "webpack-cli": "^2.0.15",
+    "webpack-dev-server": "^2.11.1"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -69,7 +72,10 @@
       ".(ts)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
-    "moduleFileExtensions": ["ts", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
     "testEnvironment": "node",
     "mapCoverage": true
   }
