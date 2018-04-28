@@ -53,6 +53,7 @@ class PluginLoader {
 
   public process(): string {
     this.findAllImportClauses();
+    this.findExplicitlyRestrictedSymbols();
     this.findAllSymbolsAndExpressions();
 
     const targetText = this.returntransformedSource();
@@ -108,12 +109,12 @@ class PluginLoader {
       if (tmpImportClause && tmpImportClause.importClause) {
         // Handle only imports with comment of strip-log
         if (isNodeCommentTrigger(tmpImportClause, this.mainSourceFile)) {
-          console.log(
-            `Checking import statement: ${nodeToString(
-              tmpImportClause,
-              this.mainSourceFile
-            )}`
-          );
+          // console.log(
+          //   `Checking import statement: ${nodeToString(
+          //     tmpImportClause,
+          //     this.mainSourceFile
+          //   )}`
+          // );
 
           this.restrictedExpressions.add(tmpImportClause);
 
@@ -160,6 +161,39 @@ class PluginLoader {
         }
       }
     }
+  }
+
+  private findExplicitlyRestrictedSymbols(): void {
+    const findExpResSymbolsInternal = (node: ts.Node) => {
+      if (
+        ts.isExpressionStatement(node) &&
+        isNodeCommentTrigger(node, this.mainSourceFile as ts.SourceFile)
+      ) {
+        restrictIdentierOrCommaBinaryExpression(node.expression);
+      } else {
+        ts.forEachChild(node, findExpResSymbolsInternal);
+      }
+    };
+
+    const restrictIdentierOrCommaBinaryExpression = (node: ts.Expression) => {
+      if (ts.isIdentifier(node)) {
+        const trySymbol = this.tsChecker.getSymbolAtLocation(node);
+        if (trySymbol) {
+          this.restrictedSymbols.add(trySymbol);
+        }
+      } else if (
+        ts.isBinaryExpression(node) &&
+        node.operatorToken.kind === ts.SyntaxKind.CommaToken
+      ) {
+        restrictIdentierOrCommaBinaryExpression(node.left);
+        restrictIdentierOrCommaBinaryExpression(node.right);
+      }
+    };
+
+    ts.forEachChild(
+      this.mainSourceFile as ts.SourceFile,
+      findExpResSymbolsInternal
+    );
   }
 
   private isExpressionRestricted(checkeeExpression: ts.Expression): boolean {
