@@ -1,6 +1,6 @@
 - [X] Travel up the AST to find statementexpressions from any expression
 - [X] Remove all uses of the restricted symbols
-- [ ] Allow more import syntaxes
+- [X] Allow more import syntaxes
 - [ ] Allow marking any symbol as "ignored"
 - [ ] Write actual passing tests
 - [ ] Test usage with actual webpack projects

@@ -17,7 +17,7 @@ import {
 } from './utils';
 import { findChildNodes, nodeToString } from './utils/utils';
 
-const ignoreRegex = /^\/\/(\W*)strip-log(\W*)$/gi;
+const ignoreRegex = /^\/\/(\W*)strip-log(\W*)$/i;
 
 function isNodeCommentTrigger(node: ts.Node, sourceFile: ts.SourceFile) {
   const comments = getComments(node, sourceFile.getFullText(), true);
@@ -105,21 +105,57 @@ class PluginLoader {
     );
 
     for (const tmpImportClause of allImportClauses) {
-      // handle `import abc from 'xyz';`
-      if (
-        tmpImportClause &&
-        tmpImportClause.importClause &&
-        tmpImportClause.importClause.name
-      ) {
-        // Handle only imports with comment - ignore
+      if (tmpImportClause && tmpImportClause.importClause) {
+        // Handle only imports with comment of strip-log
         if (isNodeCommentTrigger(tmpImportClause, this.mainSourceFile)) {
-          const importedSymbol = this.tsChecker.getSymbolAtLocation(
-            tmpImportClause.importClause.name
+          console.log(
+            `Checking import statement: ${nodeToString(
+              tmpImportClause,
+              this.mainSourceFile
+            )}`
           );
 
           this.restrictedExpressions.add(tmpImportClause);
-          if (importedSymbol) {
-            this.restrictedSymbols.add(importedSymbol);
+
+          if (tmpImportClause.importClause.name) {
+            // Handle `import abc from 'xyz';`
+
+            const importedSymbol = this.tsChecker.getSymbolAtLocation(
+              tmpImportClause.importClause.name
+            );
+            if (importedSymbol) {
+              this.restrictedSymbols.add(importedSymbol);
+            }
+          }
+
+          // Handle named bindings
+          if (tmpImportClause.importClause.namedBindings) {
+            if (
+              ts.isNamespaceImport(tmpImportClause.importClause.namedBindings)
+            ) {
+              // Handle `import * as ts from 'byots';`
+
+              const importedSymbol = this.tsChecker.getSymbolAtLocation(
+                tmpImportClause.importClause.namedBindings.name
+              );
+              if (importedSymbol) {
+                this.restrictedSymbols.add(importedSymbol);
+              }
+            } else if (
+              ts.isNamedImports(tmpImportClause.importClause.namedBindings)
+            ) {
+              // Handle `import { loader as WebpackLoader, abc } from 'webpack';`
+
+              for (const tmpImportSpecifier of tmpImportClause.importClause
+                .namedBindings.elements) {
+                const importedSymbol = this.tsChecker.getSymbolAtLocation(
+                  tmpImportSpecifier.name
+                );
+                if (importedSymbol) {
+                  this.restrictedSymbols.add(importedSymbol);
+                }
+              }
+            }
           }
         }
       }

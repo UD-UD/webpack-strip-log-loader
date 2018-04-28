@@ -1,7 +1,11 @@
 // hello
-import Logger from 'logger'; // strip-log
+import Logger123 from 'logger123'; // strip-log
+import * as Logger from 'logger'; // strip-log
+import {log as Loggery, warn as Warny} from 'loggery'; // strip-log
+
 var Logger2;
-Logger2 = Logger;
+Logger2 = Loggery;
+
 1+1;
 const loggerA = new Logger();
 Logger2;
