@@ -1,7 +1,7 @@
 - [X] Travel up the AST to find statementexpressions from any expression
 - [X] Remove all uses of the restricted symbols
 - [X] Allow more import syntaxes
-- [ ] Allow requires
+- [ ] Allow require imports (Maybe as a generic assignment expression)
 - [X] Allow marking any symbol as "ignored"
 - [ ] Add options for global restricted import module names.
 - [ ] Write actual passing tests
