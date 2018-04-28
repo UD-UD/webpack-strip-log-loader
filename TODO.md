@@ -8,4 +8,5 @@
 - [ ] Add options for global restricted import module names and local overload
 - [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean.
 - [ ] Add automatic final test that no stray symbol is still remaining
+- [ ] Investigate Array flatmap shim + typescript building 
 - [ ] Publish to npm
