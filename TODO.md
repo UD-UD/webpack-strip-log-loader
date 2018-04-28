@@ -1,11 +1,11 @@
 - [X] Travel up the AST to find statementexpressions from any expression
 - [X] Remove all uses of the restricted symbols
-- [ ] Setup webpack mode
 - [ ] Allow more import syntaxes
-- [ ] Fix readme with more usage instructions
-- [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean.
 - [ ] Allow marking any symbol as "ignored"
-- [ ] Add options for global restricted import module names and local overload
+- [ ] Write actual passing tests
 - [ ] Test usage with actual webpack projects
+- [ ] Fix readme with more usage instructions
+- [ ] Add options for global restricted import module names and local overload
+- [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean.
 - [ ] Add automatic final test that no stray symbol is still remaining
 - [ ] Publish to npm
