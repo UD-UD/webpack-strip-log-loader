@@ -1,13 +1,18 @@
 - [X] Travel up the AST to find statementexpressions from any expression
 - [X] Remove all uses of the restricted symbols
 - [X] Allow more import syntaxes
-- [ ] Allow require imports (Maybe as a generic assignment expression)
+- [ ] Allow require imports 
+- - Maybe as a generic assignment expression for symbol detection ?
+- - But then what about global module name filtering ??
 - [X] Allow marking any symbol as "ignored"
 - [ ] Add options for global restricted import module names.
 - [ ] Write actual passing tests
 - [ ] Test usage with actual webpack projects
 - [ ] Fix readme with more usage instructions
 - [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean for local overload.
+- [ ] Remove strip-log comment
 - [ ] Add automatic final test that no stray symbol is still remaining
 - [ ] Investigate Array flatmap shim + typescript building 
 - [ ] Publish to npm
+- [ ] Prepare web build of logic ??
+- [ ] Have public online demo ?
