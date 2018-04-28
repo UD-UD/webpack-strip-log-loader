@@ -1,5 +1,5 @@
 - [X] Travel up the AST to find statementexpressions from any expression
-- [ ] Remove all uses of the restricted symbols
+- [X] Remove all uses of the restricted symbols
 - [ ] Setup webpack mode
 - [ ] Allow more import syntaxes
 - [ ] Fix readme with more usage instructions
