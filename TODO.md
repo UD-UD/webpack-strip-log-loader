@@ -3,7 +3,7 @@
 - [ ] Setup webpack mode
 - [ ] Allow more import syntaxes
 - [ ] Fix readme with more usage instructions
-- [ ] Rename ignore to 'strip-log[: boolean]'. Allow optional boolean.
+- [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean.
 - [ ] Allow marking any symbol as "ignored"
 - [ ] Add options for global restricted import module names and local overload
 - [ ] Test usage with actual webpack projects
