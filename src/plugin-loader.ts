@@ -5,6 +5,9 @@ import { getOptions, OptionObject } from 'loader-utils';
 import * as path from 'path';
 import * as tmp from 'tmp';
 import { loader as WebpackLoader } from 'webpack';
+// tslint:disable-next-line:no-var-requires
+const flatMap = require('array.prototype.flatmap');
+flatMap.shim();
 
 import {
   findChildNode,
@@ -49,8 +52,8 @@ class PluginLoader {
   }
 
   public process(): string {
-    this.findAndRecordImportClauses();
-    this.findAndRecordSymbolsAndExpressions();
+    this.findAllImportClauses();
+    this.findAllSymbolsAndExpressions();
 
     const targetText = this.returntransformedSource();
 
@@ -93,7 +96,7 @@ class PluginLoader {
     }
   }
 
-  private findAndRecordImportClauses(): void {
+  private findAllImportClauses(): void {
     this.mainSourceFile = this.mainSourceFile as ts.SourceFile;
 
     const allImportClauses: ts.ImportDeclaration[] = findChildNodes(
@@ -212,7 +215,7 @@ class PluginLoader {
     return isMatching;
   }
 
-  private findAndRecordSymbolsAndExpressions(): void {
+  private findAllSymbolsAndExpressions(): void {
     this.mainSourceFile = this.mainSourceFile as ts.SourceFile;
 
     const findAndRecordMethods = [
@@ -239,6 +242,18 @@ class PluginLoader {
         method.call(this);
       });
     }
+
+    // Find all expressions from symbols already recorded
+    const expressionsFromSymbols = [...this.restrictedSymbols].flatMap(symbol =>
+      this.findExpressionsWhichUseSymbol(symbol)
+    );
+    // console.log(
+    //   `Expression from symbols count: ${expressionsFromSymbols.length}`
+    // );
+
+    expressionsFromSymbols.forEach(expr =>
+      this.restrictedExpressions.add(expr)
+    );
   }
 
   private findAndRecordPropertyAccess() {
@@ -362,6 +377,41 @@ class PluginLoader {
     ts.forEachChild(this.mainSourceFile, checkFunctionCall);
   }
 
+  private findExpressionsWhichUseSymbol(
+    checkeesymbol: ts.Symbol,
+    hoistToStatements?: boolean
+  ): ts.Node[] {
+    this.mainSourceFile = this.mainSourceFile as ts.SourceFile;
+
+    if (hoistToStatements === undefined) {
+      hoistToStatements = false;
+    }
+
+    const matchingExpressions: ts.Node[] = [];
+
+    const findExpressionInternal = (node: ts.Node) => {
+      const trySymbol = this.tsChecker.getSymbolAtLocation(node);
+      if (trySymbol && trySymbol === checkeesymbol) {
+        // Find what to push
+        let toPush: ts.Node | undefined = node;
+        if (hoistToStatements as boolean) {
+          toPush = this.getParentStatement(node);
+        }
+
+        // If node or statement exists, push it to list
+        if (toPush !== undefined) {
+          matchingExpressions.push(node);
+        }
+      }
+
+      ts.forEachChild(node, findExpressionInternal);
+    };
+
+    ts.forEachChild(this.mainSourceFile, findExpressionInternal);
+
+    return matchingExpressions;
+  }
+
   private logFindDetails(expressions: ts.Node[]) {
     // tslint:disable-next-line:no-console
     console.log(
@@ -435,12 +485,12 @@ class PluginLoader {
           ) {
             // When current expr is completely contained in prev expr
             // tslint:disable-next-line:no-console
-            console.log(
-              `Skipping expression as it is completely contained: ${nodeToString(
-                currentExpr,
-                this.mainSourceFile
-              )}`
-            );
+            // console.log(
+            //   `Skipping expression as it is completely contained: ${nodeToString(
+            //     currentExpr,
+            //     this.mainSourceFile
+            //   )}`
+            // );
             continue;
           } else {
             // There is non-contained overlap

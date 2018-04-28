@@ -1,7 +1,11 @@
 // hello
 import Logger from 'logger'; // strip-log
-
+var Logger2;
+Logger2 = Logger;
 1+1;
 const loggerA = new Logger();
+Logger2;
+const loggerB = new Logger2();
 2+4;
 loggerA.log('hello');
+loggerB.log('hello');
