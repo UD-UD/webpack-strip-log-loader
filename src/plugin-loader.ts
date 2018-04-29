@@ -53,6 +53,7 @@ class PluginLoader {
 
   public process(): string {
     this.findAllImportClauses();
+    this.findAllRequireStatements();
     this.findExplicitlyRestrictedSymbols();
     this.findAllSymbolsAndExpressions();
 
@@ -159,6 +160,28 @@ class PluginLoader {
             }
           }
         }
+      }
+    }
+  }
+
+  private findAllRequireStatements(): void {
+    this.mainSourceFile = this.mainSourceFile as ts.SourceFile;
+
+    const allRequireCalls: ts.CallExpression[] = findChildNodes(
+      this.mainSourceFile,
+      (node): node is ts.CallExpression => ts.isRequireCall(node, true)
+    );
+
+    for (const tmpRequireCall of allRequireCalls) {
+      // Handle only statements containing require call with comment of strip-log
+      // Because this is the require call expression, move up to the statement to check the comment.
+
+      const tmpRequireStatement = this.getParentStatement(tmpRequireCall);
+      if (
+        tmpRequireStatement &&
+        isNodeCommentTrigger(tmpRequireStatement, this.mainSourceFile)
+      ) {
+        this.restrictedExpressions.add(tmpRequireCall);
       }
     }
   }
