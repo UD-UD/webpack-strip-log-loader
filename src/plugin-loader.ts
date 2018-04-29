@@ -33,9 +33,13 @@ function isNodeCommentTrigger(node: ts.Node, sourceFile: ts.SourceFile) {
   }
 }
 
+interface PluginLoaderOptions {
+  modules: string[]
+}
+
 class PluginLoader {
   private sourceText: string;
-  private options: OptionObject;
+  private options: PluginLoaderOptions;
   private tmpFile!: tmp.SynchrounousResult;
   private tsProgram!: ts.Program;
   private tsChecker!: ts.TypeChecker;
@@ -46,7 +50,7 @@ class PluginLoader {
 
   constructor(loaderContext: WebpackLoader.LoaderContext, sourceText: string) {
     this.sourceText = sourceText;
-    this.options = getOptions(loaderContext);
+    this.options = getOptions(loaderContext) as PluginLoaderOptions;
 
     this.initTypescriptCompiler();
   }
@@ -608,7 +612,20 @@ class PluginLoader {
   }
 }
 
+
+const schema = {
+  type: 'object',
+  properties: {
+    test: {
+      type: 'string'
+    }
+  }
+}
+
+
 function loader(this: WebpackLoader.LoaderContext, sourceText: string): string {
+  const options = getOptions(this);
+
   const newLoaderInstance = new PluginLoader(this, sourceText);
   return newLoaderInstance.process();
 }

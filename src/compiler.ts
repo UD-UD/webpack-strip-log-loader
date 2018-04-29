@@ -20,6 +20,9 @@ export default function compileThis(
           test: /\.js1$/,
           use: {
             loader: '../lib/plugin-loader.js',
+            options: {
+              modules: ['helloAgain'],
+            },
           },
         },
       ],
