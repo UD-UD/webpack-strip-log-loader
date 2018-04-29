@@ -7,6 +7,10 @@
     "arrow-return-shorthand": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
-    "no-implicit-dependencies": [true, "dev"]
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ],
+    "interface-name": false
   }
 }
