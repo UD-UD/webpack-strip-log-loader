@@ -34,7 +34,7 @@ function isNodeCommentTrigger(node: ts.Node, sourceFile: ts.SourceFile) {
 }
 
 interface PluginLoaderOptions {
-  modules: string[]
+  modules: string[];
 }
 
 class PluginLoader {
@@ -50,7 +50,9 @@ class PluginLoader {
 
   constructor(loaderContext: WebpackLoader.LoaderContext, sourceText: string) {
     this.sourceText = sourceText;
-    this.options = getOptions(loaderContext) as PluginLoaderOptions;
+    const rawOptions = getOptions(loaderContext);
+    rawOptions.modules = rawOptions.modules || [];
+    this.options = rawOptions as PluginLoaderOptions;
 
     this.initTypescriptCompiler();
   }
@@ -113,7 +115,8 @@ class PluginLoader {
     for (const tmpImportClause of allImportClauses) {
       if (tmpImportClause && tmpImportClause.importClause) {
         // Handle only imports with comment of strip-log
-        if (isNodeCommentTrigger(tmpImportClause, this.mainSourceFile)) {
+        if (isNodeCommentTrigger(tmpImportClause, this.mainSourceFile) ||
+          this.isImportModuleNameRestrictedGlobally(tmpImportClause)) {
           // console.log(
           //   `Checking import statement: ${nodeToString(
           //     tmpImportClause,
@@ -183,7 +186,10 @@ class PluginLoader {
       const tmpRequireStatement = this.getParentStatement(tmpRequireCall);
       if (
         tmpRequireStatement &&
-        isNodeCommentTrigger(tmpRequireStatement, this.mainSourceFile)
+        (
+          isNodeCommentTrigger(tmpRequireStatement, this.mainSourceFile) ||
+          this.isRequireModuleNameRestrictedGlobally(tmpRequireCall)
+        )
       ) {
         this.restrictedExpressions.add(tmpRequireCall);
       }
@@ -221,6 +227,25 @@ class PluginLoader {
       this.mainSourceFile as ts.SourceFile,
       findExpResSymbolsInternal
     );
+  }
+
+  private isImportModuleNameRestrictedGlobally(importClause: ts.ImportDeclaration): boolean {
+    if (ts.isStringLiteral(importClause.moduleSpecifier)) {
+      const moduleName = importClause.moduleSpecifier.text;
+      return this.options.modules.includes(moduleName);
+    }
+
+    return false;
+  }
+
+  private isRequireModuleNameRestrictedGlobally(requireCallExpression: ts.CallExpression): boolean {
+    
+    if (ts.isRequireCall(requireCallExpression, true)) {
+      const moduleName = (requireCallExpression.arguments[0] as ts.StringLiteral).text;      
+      return this.options.modules.includes(moduleName);
+    }
+
+    return false;
   }
 
   private isExpressionRestricted(checkeeExpression: ts.Expression): boolean {

@@ -1,9 +1,11 @@
 // start
 import Logger123 from 'logger123'; // strip-log
 import * as Logger from 'logger'; // strip-log
+import * as ABC from 'helloAgain';
+import * as ABC from 'helloAgain2';
 import {log as Loggery, warn as Warny} from 'loggery'; // strip-log
 
-var hello = require('hello'); // strip-log
+var hello = require('helloAgain');
 
 var console2;
 console, console2; // strip-log

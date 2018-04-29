@@ -3,7 +3,7 @@
 - [X] Allow more import syntaxes
 - [X] Allow require imports 
 - [X] Allow marking any symbol as "ignored"
-- [ ] Add options for global restricted import module names.
+- [X] Add options for global restricted import/require module names.
 - [ ] Write actual passing tests
 - [ ] Test usage with actual webpack projects
 - [ ] Fix readme with more usage instructions
