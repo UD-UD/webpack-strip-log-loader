@@ -64,6 +64,11 @@
       "type": "npm",
       "script": "watch:test",
       "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "watch:test-cov",
+      "problemMatcher": []
     }
   ]
 }
