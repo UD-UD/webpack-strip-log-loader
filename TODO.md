@@ -1,3 +1,6 @@
+Important
+-----------
+
 - [X] Travel up the AST to find statementexpressions from any expression
 - [X] Remove all uses of the restricted symbols
 - [X] Allow more import syntaxes
@@ -7,10 +10,15 @@
 - [ ] Write actual passing tests with pre/post files (Started)
 - [ ] Test usage with actual webpack projects
 - [ ] Fix readme with more usage instructions
-- [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean for local overload.
 - [ ] Remove strip-log comment
-- [ ] Add automatic final test that no stray symbol is still remaining
 - [ ] Investigate Array flatmap shim + typescript building 
 - [ ] Publish to npm
+
+Extras
+---------
+
+- [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean for local overload.
+- [ ] Allow comment regex patern to overload 'change-log' (Will allow more complicated mixed comment patterns) ?
+- [ ] Add automatic final test that no stray symbol is still remaining
 - [ ] Prepare web build of logic ??
 - [ ] Have public online demo ?
