@@ -1,0 +1,6 @@
+import Log from 'logger';// strip-log
+
+const abc = new Log();
+
+var someVar = 5;
+console.log(someVar);

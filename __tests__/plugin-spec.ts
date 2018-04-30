@@ -5,6 +5,8 @@ import compiler from '../src/compiler';
 const pathPreFolder = path.resolve(__dirname, '../test_files/pre');
 const pathPostFolder = path.resolve(__dirname, '../test_files/post');
 
+// Import tests
+
 test('Removes default import statement', async () => {
   const fileName = 'import-default.js1';
   const pathPreFile = path.join(pathPreFolder, fileName);
@@ -187,6 +189,42 @@ test('Removes mixed imports with negative test (some stripped)', async () => {
 
 test('Removes explicitly marked symbols', async () => {
   const fileName = 'remove-explicit-marked-symbol.js1';
+  const pathPreFile = path.join(pathPreFolder, fileName);
+  const pathPostFile = path.join(pathPostFolder, fileName);
+
+  const stats = await compiler(pathPreFile, {});
+  const statsJSON = stats.toJson();
+
+  const transformedPreFileContent = (statsJSON.modules as any[]).filter(
+    moduleStat => moduleStat.name.toLowerCase().endsWith(fileName)
+  )[0].source;
+
+  const postFileContent = fs.readFileSync(pathPostFile).toString();
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
+
+// Function call
+
+test('Removes function call of restricted symbol', async () => {
+  const fileName = 'log-function-call.js1';
+  const pathPreFile = path.join(pathPreFolder, fileName);
+  const pathPostFile = path.join(pathPostFolder, fileName);
+
+  const stats = await compiler(pathPreFile, {});
+  const statsJSON = stats.toJson();
+
+  const transformedPreFileContent = (statsJSON.modules as any[]).filter(
+    moduleStat => moduleStat.name.toLowerCase().endsWith(fileName)
+  )[0].source;
+
+  const postFileContent = fs.readFileSync(pathPostFile).toString();
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
+
+// New expression
+
+test('Removes new expression of restricted symbol', async () => {
+  const fileName = 'log-new-expression.js1';
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
