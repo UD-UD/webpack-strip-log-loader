@@ -1,4 +1,5 @@
 import * as ts from 'byots';
+import { WSASYSCALLFAILURE } from 'constants';
 
 export const nodeToString = (
   node: ts.Node,
@@ -16,18 +17,27 @@ export const nodeToString = (
     .printNode(ts.EmitHint.Unspecified, node, sourceFile);
 };
 
-export const findChildNode = (
+// findChildNode 
+export function findChildNode<T extends ts.Node>(
+  rootNode: ts.Node,
+  fnTest: (testNode: ts.Node) => testNode is T
+): T | undefined;
+
+export function findChildNode(
   rootNode: ts.Node,
   fnTest: (testNode: ts.Node) => boolean
-): ts.Node | undefined => {
-  let result: ts.Node | undefined;
+): ts.Node | undefined;
+
+export function findChildNode<T extends ts.Node>(rootNode: ts.Node,
+  fnTest: (testNode: ts.Node) => boolean): T | undefined {
+  let result: T | undefined;
 
   function _findChildNode(node: ts.Node) {
     if (result) {
       return;
     }
     if (fnTest(node)) {
-      result = node;
+      result = node as T;
       return;
     }
     ts.forEachChild(node, _findChildNode);
@@ -37,15 +47,26 @@ export const findChildNode = (
   return result;
 };
 
+// findChildNodes
 export function findChildNodes<T extends ts.Node>(
   rootNode: ts.Node,
   fnTest: (testNode: ts.Node) => testNode is T
+): T[];
+
+export function findChildNodes(
+  rootNode: ts.Node,
+  fnTest: (testNode: ts.Node) => boolean
+): ts.Node[];
+
+export function findChildNodes<T extends ts.Node>(
+  rootNode: ts.Node,
+  fnTest: (testNode: ts.Node) => boolean
 ): T[] {
   const resultNodes: T[] = [];
 
   function _findChildNode(node: ts.Node) {
     if (fnTest(node)) {
-      resultNodes.push(node);
+      resultNodes.push(node as T);
     }
     ts.forEachChild(node, _findChildNode);
   }
@@ -54,31 +75,30 @@ export function findChildNodes<T extends ts.Node>(
   return resultNodes;
 }
 
-// TODO: FIX with generic
-export const findChildOrSelfNode = (
-  rootNode: ts.Node,
-  fnTest: (testNode: ts.Node) => boolean
-): ts.Node | undefined => {
-  if (fnTest(rootNode)) {
-    return rootNode;
-  } else {
-    return findChildNode(rootNode, fnTest);
-  }
-};
+// findParentOrSelfNode
+export function findParentOrSelfNode<T extends ts.Node>(
+  childNode: ts.Node,
+  fnTest: (testNode: ts.Node) => testNode is T
+): T | undefined;
 
-export const findParentOrSelfNode = (
+export function findParentOrSelfNode(
   childNode: ts.Node,
   fnTest: (testNode: ts.Node) => boolean
-): ts.Node | undefined => {
+): ts.Node | undefined;
+
+export function findParentOrSelfNode<T extends ts.Node>(
+  childNode: ts.Node,
+  fnTest: (testNode: ts.Node) => boolean
+): T | undefined {
   if (fnTest(childNode)) {
-    return childNode;
+    return childNode as T;
   } else {
     const nextNode = childNode.parent;
 
     if (nextNode === undefined) {
       return undefined;
     } else {
-      return findParentOrSelfNode(nextNode, fnTest);
+      return findParentOrSelfNode(nextNode, fnTest) as T;
     }
   }
 };
@@ -113,69 +133,69 @@ export const getComments = (
   return [];
 };
 
-export function cloneNode(node: any): any {
-  if (ts.isObjectLiteralExpression(node)) {
-    node = node as ts.ObjectLiteralExpression;
-    return ts.createObjectLiteral(
-      node.properties && node.properties.map(cloneNode),
-      node.multiLine
-    );
-  } else if (ts.isArrayLiteralExpression(node)) {
-    node = node as ts.ArrayLiteralExpression;
-    return ts.createArrayLiteral(
-      node.elements && node.elements.map(cloneNode),
-      node.multiLine
-    );
-  } else if (ts.isPropertyAssignment(node)) {
-    node = node as ts.PropertyAssignment;
-    return ts.createPropertyAssignment(
-      cloneNode(node.name),
-      cloneNode(node.initializer)
-    );
-  } else if (ts.isFunctionExpression(node)) {
-    node = node as ts.FunctionExpression;
-    return ts.createFunctionExpression(
-      node.modifiers && node.modifiers.map(cloneNode),
-      node.asteriskToken && cloneNode(node.asteriskToken),
-      node.name,
-      node.typeParameters && node.typeParameters.map(cloneNode),
-      node.parameters.map(cloneNode),
-      node.type,
-      cloneNode(node.body)
-    );
-  } else if (ts.isBlock(node)) {
-    node = node as ts.Block;
-    return ts.createBlock(node.statements.map(cloneNode), node.multiLine);
-  } else if (ts.isVariableDeclaration(node)) {
-    node = node as ts.VariableDeclaration;
-    return ts.createVariableDeclaration(
-      node.name,
-      node.type,
-      cloneNode(node.initializer)
-    );
-  } else if (ts.isVariableDeclarationList(node)) {
-    node = node as ts.VariableDeclarationList;
-    return ts.createVariableDeclarationList(
-      node.declarations.map(cloneNode),
-      node.flags
-    );
-  } else if (ts.isVariableDeclaration(node)) {
-    node = node as ts.VariableDeclaration;
-    return ts.createVariableDeclaration(
-      node.name,
-      node.type,
-      cloneNode(node.initializer)
-    );
-  } else if (ts.isIdentifier(node)) {
-    node = node as ts.Identifier;
-    return ts.createIdentifier(node.text);
-  } else if (ts.isNumericLiteral(node)) {
-    node = node as ts.NumericLiteral;
-    return ts.createNumericLiteral(node.text);
-  } else if (ts.isStringLiteral(node)) {
-    node = node as ts.StringLiteral;
-    return ts.createLiteral(node.text);
-  } else {
-    return node;
-  }
-}
+// export function cloneNode(node: any): any {
+//   if (ts.isObjectLiteralExpression(node)) {
+//     node = node as ts.ObjectLiteralExpression;
+//     return ts.createObjectLiteral(
+//       node.properties && node.properties.map(cloneNode),
+//       node.multiLine
+//     );
+//   } else if (ts.isArrayLiteralExpression(node)) {
+//     node = node as ts.ArrayLiteralExpression;
+//     return ts.createArrayLiteral(
+//       node.elements && node.elements.map(cloneNode),
+//       node.multiLine
+//     );
+//   } else if (ts.isPropertyAssignment(node)) {
+//     node = node as ts.PropertyAssignment;
+//     return ts.createPropertyAssignment(
+//       cloneNode(node.name),
+//       cloneNode(node.initializer)
+//     );
+//   } else if (ts.isFunctionExpression(node)) {
+//     node = node as ts.FunctionExpression;
+//     return ts.createFunctionExpression(
+//       node.modifiers && node.modifiers.map(cloneNode),
+//       node.asteriskToken && cloneNode(node.asteriskToken),
+//       node.name,
+//       node.typeParameters && node.typeParameters.map(cloneNode),
+//       node.parameters.map(cloneNode),
+//       node.type,
+//       cloneNode(node.body)
+//     );
+//   } else if (ts.isBlock(node)) {
+//     node = node as ts.Block;
+//     return ts.createBlock(node.statements.map(cloneNode), node.multiLine);
+//   } else if (ts.isVariableDeclaration(node)) {
+//     node = node as ts.VariableDeclaration;
+//     return ts.createVariableDeclaration(
+//       node.name,
+//       node.type,
+//       cloneNode(node.initializer)
+//     );
+//   } else if (ts.isVariableDeclarationList(node)) {
+//     node = node as ts.VariableDeclarationList;
+//     return ts.createVariableDeclarationList(
+//       node.declarations.map(cloneNode),
+//       node.flags
+//     );
+//   } else if (ts.isVariableDeclaration(node)) {
+//     node = node as ts.VariableDeclaration;
+//     return ts.createVariableDeclaration(
+//       node.name,
+//       node.type,
+//       cloneNode(node.initializer)
+//     );
+//   } else if (ts.isIdentifier(node)) {
+//     node = node as ts.Identifier;
+//     return ts.createIdentifier(node.text);
+//   } else if (ts.isNumericLiteral(node)) {
+//     node = node as ts.NumericLiteral;
+//     return ts.createNumericLiteral(node.text);
+//   } else if (ts.isStringLiteral(node)) {
+//     node = node as ts.StringLiteral;
+//     return ts.createLiteral(node.text);
+//   } else {
+//     return node;
+//   }
+// }

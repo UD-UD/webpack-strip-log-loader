@@ -1,8 +1,7 @@
 export {
-  cloneNode,
+  nodeToString,
   findChildNode,
-  findChildOrSelfNode,
+  findChildNodes,
   findParentOrSelfNode,
   getComments,
-  nodeToString,
 } from './utils';
