@@ -65,7 +65,7 @@ class PluginLoader {
 
     const targetText = this.returntransformedSource();
 
-    // this.cleanup();
+    this.cleanup();
     return targetText;
   }
 
@@ -115,8 +115,10 @@ class PluginLoader {
     for (const tmpImportClause of allImportClauses) {
       if (tmpImportClause && tmpImportClause.importClause) {
         // Handle only imports with comment of strip-log
-        if (isNodeCommentTrigger(tmpImportClause, this.mainSourceFile) ||
-          this.isImportModuleNameRestrictedGlobally(tmpImportClause)) {
+        if (
+          isNodeCommentTrigger(tmpImportClause, this.mainSourceFile) ||
+          this.isImportModuleNameRestrictedGlobally(tmpImportClause)
+        ) {
           // console.log(
           //   `Checking import statement: ${nodeToString(
           //     tmpImportClause,
@@ -186,10 +188,8 @@ class PluginLoader {
       const tmpRequireStatement = this.getParentStatement(tmpRequireCall);
       if (
         tmpRequireStatement &&
-        (
-          isNodeCommentTrigger(tmpRequireStatement, this.mainSourceFile) ||
-          this.isRequireModuleNameRestrictedGlobally(tmpRequireCall)
-        )
+        (isNodeCommentTrigger(tmpRequireStatement, this.mainSourceFile) ||
+          this.isRequireModuleNameRestrictedGlobally(tmpRequireCall))
       ) {
         this.restrictedExpressions.add(tmpRequireCall);
       }
@@ -229,7 +229,9 @@ class PluginLoader {
     );
   }
 
-  private isImportModuleNameRestrictedGlobally(importClause: ts.ImportDeclaration): boolean {
+  private isImportModuleNameRestrictedGlobally(
+    importClause: ts.ImportDeclaration
+  ): boolean {
     if (ts.isStringLiteral(importClause.moduleSpecifier)) {
       const moduleName = importClause.moduleSpecifier.text;
       return this.options.modules.includes(moduleName);
@@ -238,10 +240,12 @@ class PluginLoader {
     return false;
   }
 
-  private isRequireModuleNameRestrictedGlobally(requireCallExpression: ts.CallExpression): boolean {
-    
+  private isRequireModuleNameRestrictedGlobally(
+    requireCallExpression: ts.CallExpression
+  ): boolean {
     if (ts.isRequireCall(requireCallExpression, true)) {
-      const moduleName = (requireCallExpression.arguments[0] as ts.StringLiteral).text;      
+      const moduleName = (requireCallExpression
+        .arguments[0] as ts.StringLiteral).text;
       return this.options.modules.includes(moduleName);
     }
 
@@ -637,16 +641,14 @@ class PluginLoader {
   }
 }
 
-
 const schema = {
   type: 'object',
   properties: {
     test: {
-      type: 'string'
-    }
-  }
-}
-
+      type: 'string',
+    },
+  },
+};
 
 function loader(this: WebpackLoader.LoaderContext, sourceText: string): string {
   const options = getOptions(this);
