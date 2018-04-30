@@ -10,12 +10,12 @@ const flatMap = require('array.prototype.flatmap');
 flatMap.shim();
 
 import {
+  nodeToString,
   findChildNode,
-  findChildOrSelfNode,
+  findChildNodes,
   findParentOrSelfNode,
   getComments,
 } from './utils';
-import { findChildNodes, nodeToString } from './utils/utils';
 
 const ignoreRegex = /^\/\/(\W*)strip-log(\W*)$/i;
 
@@ -32,7 +32,7 @@ function isNodeCommentTrigger(node: ts.Node, sourceFile: ts.SourceFile) {
     return false;
   }
 }
-
+// USE UTILS EVERYWHERE INSTEAD OF ts.forEachChild
 interface PluginLoaderOptions {
   modules: string[];
 }
@@ -197,17 +197,6 @@ class PluginLoader {
   }
 
   private findExplicitlyRestrictedSymbols(): void {
-    const findExpResSymbolsInternal = (node: ts.Node) => {
-      if (
-        ts.isExpressionStatement(node) &&
-        isNodeCommentTrigger(node, this.mainSourceFile as ts.SourceFile)
-      ) {
-        restrictIdentierOrCommaBinaryExpression(node.expression);
-      } else {
-        ts.forEachChild(node, findExpResSymbolsInternal);
-      }
-    };
-
     const restrictIdentierOrCommaBinaryExpression = (node: ts.Expression) => {
       if (ts.isIdentifier(node)) {
         const trySymbol = this.tsChecker.getSymbolAtLocation(node);
@@ -220,6 +209,17 @@ class PluginLoader {
       ) {
         restrictIdentierOrCommaBinaryExpression(node.left);
         restrictIdentierOrCommaBinaryExpression(node.right);
+      }
+    };
+
+    const findExpResSymbolsInternal = (node: ts.Node) => {
+      if (
+        ts.isExpressionStatement(node) &&
+        isNodeCommentTrigger(node, this.mainSourceFile as ts.SourceFile)
+      ) {
+        restrictIdentierOrCommaBinaryExpression(node.expression);
+      } else {
+        ts.forEachChild(node, findExpResSymbolsInternal);
       }
     };
 
@@ -271,9 +271,7 @@ class PluginLoader {
   ): boolean {
     this.mainSourceFile = this.mainSourceFile as ts.SourceFile;
 
-    let isMatching = false;
-
-    const checkDeclarations = (node: ts.Node): void => {
+    const isDeclarationForGivenSymbol = (node: ts.Node): boolean => {
       // if variable declaration
       if (ts.isVariableDeclaration(node)) {
         // const abc = logger.log
@@ -285,21 +283,20 @@ class PluginLoader {
           );
           if (
             (initializerSymbol &&
-              this.restrictedSymbols.add(initializerSymbol)) ||
+              this.restrictedSymbols.has(initializerSymbol)) ||
             this.restrictedExpressions.has(initializer)
           ) {
-            isMatching = true;
-            return;
+            return true;
           }
         }
-      } else {
-        ts.forEachChild(node, checkDeclarations);
       }
+
+      return false;
     };
 
-    ts.forEachChild(this.mainSourceFile, checkDeclarations);
+    const matchingVarDecl = findChildNode(this.mainSourceFile, isDeclarationForGivenSymbol);
 
-    return isMatching;
+    return (matchingVarDecl !== undefined);
   }
 
   private isSymbolAssignedWithRestrictedInit(
@@ -307,10 +304,8 @@ class PluginLoader {
   ): boolean {
     this.mainSourceFile = this.mainSourceFile as ts.SourceFile;
 
-    let isMatching = false;
-
-    const checkAssignments = (node: ts.Node): void => {
-      // if variable declaration
+    const isVariableAssignmentForGivenSymbol = (node: ts.Node): boolean => {
+      // if variable assignment (binary =)
       if (
         ts.isBinaryExpression(node) &&
         node.operatorToken.kind === ts.SyntaxKind.EqualsToken
@@ -327,18 +322,17 @@ class PluginLoader {
               this.restrictedSymbols.has(initializerSymbol)) ||
             this.restrictedExpressions.has(initializer)
           ) {
-            isMatching = true;
-            return;
+            return true;
           }
         }
-      } else {
-        ts.forEachChild(node, checkAssignments);
       }
+
+      return false;
     };
 
-    ts.forEachChild(this.mainSourceFile, checkAssignments);
+    const matchingVarAssignment = findChildNode(this.mainSourceFile, isVariableAssignmentForGivenSymbol);
 
-    return isMatching;
+    return (matchingVarAssignment !== undefined);
   }
 
   private findAllSymbolsAndExpressions(): void {
@@ -405,7 +399,7 @@ class PluginLoader {
           (leftHandSymbol && this.isSymbolRestricted(leftHandSymbol)) ||
           this.isExpressionRestricted(leftHandObjectIdentifier)
         ) {
-          // Remove expression
+          // Restrict expression
           this.restrictedExpressions.add(node);
 
           // Enrich symbol
@@ -555,13 +549,7 @@ class PluginLoader {
   }
 
   private getParentStatement(node: ts.Node): ts.Statement | undefined {
-    if (ts.isStatement(node)) {
-      return node;
-    } else if (node.parent) {
-      return this.getParentStatement(node.parent);
-    } else {
-      return undefined;
-    }
+    return findParentOrSelfNode(node, ts.isStatement);
   }
 
   private returntransformedSource(): string {
