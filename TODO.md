@@ -10,13 +10,13 @@ Important
 - [ ] Write actual passing tests with pre/post files (Started)
 - [ ] Test usage with actual webpack projects
 - [ ] Fix readme with more usage instructions
-- [ ] Remove strip-log comment
-- [ ] Investigate Array flatmap shim + typescript building 
-- [ ] Publish to npm
+- [ ] Publish to npm v1
 
 Extras
 ---------
 
+- [ ] Remove strip-log comment
+- [ ] Investigate Array flatmap shim + typescript building 
 - [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean for local overload.
 - [ ] Allow comment regex patern to overload 'change-log' (Will allow more complicated mixed comment patterns) ?
 - [ ] Add automatic final test that no stray symbol is still remaining
