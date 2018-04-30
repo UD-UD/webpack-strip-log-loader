@@ -29,7 +29,8 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "watch": "npm run build -- --watch",
-    "watch:test": "jest --watch"
+    "watch:test": "jest --watch",
+    "watch:test-cov": "jest --watch --coverage"
   },
   "dependencies": {
     "array.prototype.flatmap": "^1.2.1",
