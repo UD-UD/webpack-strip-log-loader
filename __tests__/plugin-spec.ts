@@ -4,16 +4,40 @@ import compiler from '../src/compiler';
 
 jest.setTimeout(10000);
 
-test('Inserts name and outputs JavaScript', async () => {
-  const filePath = path.resolve(__dirname, '../test_files/import2.js1');
-  const fileContent = fs.readFileSync(filePath).toString();
+const pathPreFolder = path.resolve(__dirname, '../test_files/pre');
+const pathPostFolder = path.resolve(__dirname, '../test_files/post');
 
-  const stats = await compiler(filePath);
+test('Removes namespace import statement', async () => {
+  const fileName = "import-namespace.js1";
+  const pathPreFile = path.join(pathPreFolder, fileName);
+  const pathPostFile = path.join(pathPostFolder, fileName);
+
+  
+  const stats = await compiler(pathPreFile);
   const statsJSON = stats.toJson();
-
-  const js1ModuleText = (statsJSON.modules as any[]).filter(moduleStat =>
-    moduleStat.name.toLowerCase().endsWith('.js1')
+  
+  const transformedPreFileContent = (statsJSON.modules as any[]).filter(moduleStat =>
+    moduleStat.name.toLowerCase().endsWith(fileName)
   )[0].source;
+  
+  const postFileContent = fs.readFileSync(pathPostFile).toString();
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
 
-  expect(js1ModuleText).toBe(fileContent);
+
+test('Removes namespace import statement with spaced comment', async () => {
+  const fileName = "import-namespace-comment-spaced.js1";
+  const pathPreFile = path.join(pathPreFolder, fileName);
+  const pathPostFile = path.join(pathPostFolder, fileName);
+
+  
+  const stats = await compiler(pathPreFile);
+  const statsJSON = stats.toJson();
+  
+  const transformedPreFileContent = (statsJSON.modules as any[]).filter(moduleStat =>
+    moduleStat.name.toLowerCase().endsWith(fileName)
+  )[0].source;
+  
+  const postFileContent = fs.readFileSync(pathPostFile).toString();
+  expect(transformedPreFileContent).toBe(postFileContent);
 });

@@ -4,7 +4,7 @@
 - [X] Allow require imports 
 - [X] Allow marking any symbol as "ignored"
 - [X] Add options for global restricted import/require module names.
-- [ ] Write actual passing tests
+- [ ] Write actual passing tests with pre/post files (Started)
 - [ ] Test usage with actual webpack projects
 - [ ] Fix readme with more usage instructions
 - [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean for local overload.
