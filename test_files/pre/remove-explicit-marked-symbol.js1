@@ -1,0 +1,5 @@
+console;// strip-log
+
+var someVar = 5;
+
+console.log(someVar);
