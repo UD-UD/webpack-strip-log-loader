@@ -1,0 +1,6 @@
+import Logger123 from 'logger1'; // strip-log
+import * as Logger from 'logger2';
+import {log as Loggery, warn as Warny} from 'loggery'; // strip-log
+
+var someVar = 5;
+console.log(someVar);

@@ -1,0 +1,4 @@
+import {LoggerGlobal1 as Logger} from 'logger-global';
+
+var someVar = 5;
+console.log(someVar);

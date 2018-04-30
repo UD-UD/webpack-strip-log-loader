@@ -1,0 +1,9 @@
+import Logger123 from 'logger123'; // strip-log
+import * as Logger from 'logger';
+import {log as Loggery, warn as Warny} from 'loggery'; // strip-log
+import * as LoggerGlobal1 from 'logger-global-1';
+
+var LoggerGlobal2 = require('logger-global-2');
+
+var someVar = 5;
+console.log(someVar);

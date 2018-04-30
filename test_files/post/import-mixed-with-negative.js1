@@ -1,0 +1,6 @@
+ // strip-log
+import * as Logger from 'logger2';
+ // strip-log
+
+var someVar = 5;
+console.log(someVar);

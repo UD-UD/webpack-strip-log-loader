@@ -1,0 +1,4 @@
+import {abc, def} from 'assert';// strip-log
+
+var someVar = 5;
+console.log(someVar);
