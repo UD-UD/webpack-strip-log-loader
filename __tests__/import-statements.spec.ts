@@ -86,29 +86,3 @@ test('Removes mixed imports with negative test (some stripped)', async () => {
 
   expect(transformedPreFileContent).toBe(postFileContent);
 });
-
-test('Removes explicitly marked symbols', async () => {
-  const fileName = 'remove-explicit-marked-symbol.js1';
-  const { transformedPreFileContent, postFileContent } = await testPrePostFile(fileName);
-
-  expect(transformedPreFileContent).toBe(postFileContent);
-});
-
-// Function call
-
-test('Removes function call of restricted symbol', async () => {
-  const fileName = 'log-function-call.js1';
-  const { transformedPreFileContent, postFileContent } = await testPrePostFile(fileName);
-
-  expect(transformedPreFileContent).toBe(postFileContent);
-});
-
-// New expression
-
-test('Removes new expression of restricted symbol', async () => {
-  const fileName = 'log-new-expression.js1';
-  const { transformedPreFileContent, postFileContent } = await testPrePostFile(fileName);
-
-  expect(transformedPreFileContent).toBe(postFileContent);
-});
-
