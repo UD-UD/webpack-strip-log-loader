@@ -30,7 +30,8 @@
     "coverage": "jest --coverage",
     "watch": "npm run build -- --watch",
     "watch:test": "jest --watch",
-    "watch:test-cov": "jest --watch --coverage"
+    "watch:test-cov": "jest --watch --coverage",
+    "list:test": "jest --listTests"
   },
   "dependencies": {
     "array.prototype.flatmap": "^1.2.1",
@@ -73,7 +74,7 @@
     "transform": {
       ".(ts)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
+    "testRegex": "(/__tests__/(?!.*\\.ignore).*|\\.(test|spec))\\.(ts|js)$",
     "moduleFileExtensions": [
       "ts",
       "js"
