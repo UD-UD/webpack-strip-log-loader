@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import compiler from '../src/compiler';
+import {compileTest} from './utils.ignore';
 
 const pathPreFolder = path.resolve(__dirname, '../test_files/pre');
 const pathPostFolder = path.resolve(__dirname, '../test_files/post');
@@ -12,7 +12,7 @@ test('Removes default import statement', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -28,7 +28,7 @@ test('Removes default import statement with spaced comment', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -44,7 +44,7 @@ test('Removes namespace import statement', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -60,7 +60,7 @@ test('Removes named import statement without alias', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -76,7 +76,7 @@ test('Removes named import statement with alias', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -92,7 +92,7 @@ test('Removes imports with global strip modules', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {
+  const stats = await compileTest(pathPreFile, {
     modules: ['logger-global'],
   });
   const statsJSON = stats.toJson();
@@ -110,7 +110,7 @@ test('Removes simple require statements', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -126,7 +126,7 @@ test("Doesn't remove invalid require statements", async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -142,7 +142,7 @@ test('Removes mixed imports simple (all stripped)', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -158,7 +158,7 @@ test('Removes mixed imports complex (some stripped + global strip modules)', asy
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {
+  const stats = await compileTest(pathPreFile, {
     modules: ['logger-global-2', 'logger-global-1'],
   });
   const statsJSON = stats.toJson();
@@ -176,7 +176,7 @@ test('Removes mixed imports with negative test (some stripped)', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -192,7 +192,7 @@ test('Removes explicitly marked symbols', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -210,7 +210,7 @@ test('Removes function call of restricted symbol', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(
@@ -228,7 +228,7 @@ test('Removes new expression of restricted symbol', async () => {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
 
-  const stats = await compiler(pathPreFile, {});
+  const stats = await compileTest(pathPreFile, {});
   const statsJSON = stats.toJson();
 
   const transformedPreFileContent = (statsJSON.modules as any[]).filter(

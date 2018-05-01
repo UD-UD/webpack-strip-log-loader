@@ -3,7 +3,7 @@ import * as webpack from 'webpack';
 // tslint:disable-next-line:no-var-requires
 const memoryfs = require('memory-fs');
 
-export default function compileThis(
+export function compileTest(
   absoluteEntryFilePath: string,
   options = {}
 ): Promise<webpack.Stats> {
@@ -11,7 +11,7 @@ export default function compileThis(
     context: __dirname,
     entry: absoluteEntryFilePath,
     output: {
-      path: path.resolve(__dirname, '../test_files/'),
+      path: path.resolve(__dirname, '../../test_files/'),
       filename: 'bundle.js',
     },
     module: {
@@ -19,7 +19,7 @@ export default function compileThis(
         {
           test: /\.js1$/,
           use: {
-            loader: '../lib/plugin-loader.js',
+            loader: '../../lib/plugin-loader.js',
             // tslint:disable-next-line:object-literal-shorthand
             options: options,
           },
