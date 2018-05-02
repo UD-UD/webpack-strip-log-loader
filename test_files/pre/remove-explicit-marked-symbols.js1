@@ -1,0 +1,9 @@
+var console1, console2;
+
+console1, console2;// strip-log
+
+var someVar = 5;
+
+console1.log(someVar);
+console.log(someVar);
+console2.log(someVar);

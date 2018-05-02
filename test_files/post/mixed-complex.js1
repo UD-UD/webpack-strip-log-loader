@@ -1,0 +1,28 @@
+// start
+ // strip-log
+ // strip-log
+
+import * as HelloWorld from 'helloWorld';
+
+var helloWorld2 = require('helloAgain');
+
+
+
+
+1 + 1;
+
+
+
+2 + 4;
+
+
+HelloWorld.log('should not be removed');
+
+
+function nothing() {
+    {
+        
+         // strip-log
+        
+    }
+}

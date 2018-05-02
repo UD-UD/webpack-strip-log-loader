@@ -1,0 +1,28 @@
+// start
+import * as Logger from 'logger'; // strip-log
+import Logger2 from 'logger2'; // strip-log
+import * as LogGlobal from 'logger-global';
+import * as HelloWorld from 'helloWorld';
+
+var helloWorld2 = require('helloAgain');
+
+var LoggerAgain;
+LoggerAgain = LogGlobal;
+
+1 + 1;
+const loggerA = new Logger.abc();
+Logger2;
+const loggerB = new LoggerAgain();
+2 + 4;
+loggerA.warn('should be removed');
+loggerB.log('should be removed');
+HelloWorld.log('should not be removed');
+console.log('should be removed');
+
+function nothing() {
+    {
+        var console2;
+        console, console2; // strip-log
+        console2.log('should be removed too');
+    }
+}

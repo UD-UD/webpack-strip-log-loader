@@ -1,0 +1,4 @@
+import * as abc from 'assert';
+
+var someVar = 5;
+abc(someVar).toBe(5);
