@@ -7,7 +7,8 @@ Important
 - [X] Allow require imports 
 - [X] Allow marking any symbol as "ignored"
 - [X] Add options for global restricted import/require module names.
-- [ ] Write actual passing tests with pre/post files (Started)
+- [X] Write actual passing tests with pre/post files
+- [ ] Setup CI
 - [ ] Test usage with actual webpack projects
 - [ ] Fix readme with more usage instructions
 - [ ] Publish to npm v1
