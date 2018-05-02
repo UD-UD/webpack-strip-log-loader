@@ -1,0 +1,9 @@
+// strip-log
+
+{
+let log = {};
+log('hello');
+}
+
+var someVar = 5;
+console.log(someVar);

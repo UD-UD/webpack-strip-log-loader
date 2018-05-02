@@ -1,0 +1,10 @@
+import log from 'logger';// strip-log
+
+function someThing() {
+    
+}
+
+someThing(log('hello'));
+
+var someVar = 5;
+console.log(someVar);

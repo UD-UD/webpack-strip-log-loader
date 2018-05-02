@@ -1,0 +1,10 @@
+// strip-log
+
+function someThing() {
+    
+}
+
+
+
+var someVar = 5;
+console.log(someVar);
