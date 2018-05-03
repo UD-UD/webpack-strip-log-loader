@@ -50,7 +50,10 @@ class PluginLoader {
 
   constructor(loaderContext: WebpackLoader.LoaderContext, sourceText: string) {
     this.sourceText = sourceText;
-    const rawOptions = getOptions(loaderContext);
+    let rawOptions = getOptions(loaderContext) as OptionObject | null;
+    if (rawOptions === null) {
+      rawOptions = {};
+    }
     rawOptions.modules = rawOptions.modules || [];
     this.options = rawOptions as PluginLoaderOptions;
 
