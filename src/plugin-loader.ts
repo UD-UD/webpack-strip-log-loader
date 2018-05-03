@@ -294,9 +294,12 @@ class PluginLoader {
       return false;
     };
 
-    const matchingVarDecl = findChildNode(this.mainSourceFile, isDeclarationForGivenSymbol);
+    const matchingVarDecl = findChildNode(
+      this.mainSourceFile,
+      isDeclarationForGivenSymbol
+    );
 
-    return (matchingVarDecl !== undefined);
+    return matchingVarDecl !== undefined;
   }
 
   private isSymbolAssignedWithRestrictedInit(
@@ -330,9 +333,12 @@ class PluginLoader {
       return false;
     };
 
-    const matchingVarAssignment = findChildNode(this.mainSourceFile, isVariableAssignmentForGivenSymbol);
+    const matchingVarAssignment = findChildNode(
+      this.mainSourceFile,
+      isVariableAssignmentForGivenSymbol
+    );
 
-    return (matchingVarAssignment !== undefined);
+    return matchingVarAssignment !== undefined;
   }
 
   private findAllSymbolsAndExpressions(): void {

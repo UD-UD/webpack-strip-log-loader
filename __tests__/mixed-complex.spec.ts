@@ -5,11 +5,12 @@ import { testPrePostFile } from './utils.ignore';
 
 test('Removes mixed combination of constructs', async () => {
   const fileName = 'mixed-complex.js1';
-  const { transformedPreFileContent, postFileContent } = await testPrePostFile(fileName, {
-    modules: [
-      'logger-global',
-    ]
-  });
+  const { transformedPreFileContent, postFileContent } = await testPrePostFile(
+    fileName,
+    {
+      modules: ['logger-global'],
+    }
+  );
 
   expect(transformedPreFileContent).toBe(postFileContent);
 });

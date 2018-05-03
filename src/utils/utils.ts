@@ -17,7 +17,7 @@ export const nodeToString = (
     .printNode(ts.EmitHint.Unspecified, node, sourceFile);
 };
 
-// findChildNode 
+// findChildNode
 export function findChildNode<T extends ts.Node>(
   rootNode: ts.Node,
   fnTest: (testNode: ts.Node) => testNode is T
@@ -28,8 +28,10 @@ export function findChildNode(
   fnTest: (testNode: ts.Node) => boolean
 ): ts.Node | undefined;
 
-export function findChildNode<T extends ts.Node>(rootNode: ts.Node,
-  fnTest: (testNode: ts.Node) => boolean): T | undefined {
+export function findChildNode<T extends ts.Node>(
+  rootNode: ts.Node,
+  fnTest: (testNode: ts.Node) => boolean
+): T | undefined {
   let result: T | undefined;
 
   function _findChildNode(node: ts.Node) {
@@ -45,7 +47,7 @@ export function findChildNode<T extends ts.Node>(rootNode: ts.Node,
   _findChildNode(rootNode);
 
   return result;
-};
+}
 
 // findChildNodes
 export function findChildNodes<T extends ts.Node>(
@@ -101,7 +103,7 @@ export function findParentOrSelfNode<T extends ts.Node>(
       return findParentOrSelfNode(nextNode, fnTest) as T;
     }
   }
-};
+}
 
 export const getComments = (
   node: ts.Node,

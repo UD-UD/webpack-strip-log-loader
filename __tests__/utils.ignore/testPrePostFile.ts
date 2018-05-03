@@ -5,7 +5,6 @@ import { compileTest } from './compiler';
 const pathPreFolder = path.resolve(__dirname, '../../test_files/pre');
 const pathPostFolder = path.resolve(__dirname, '../../test_files/post');
 
-
 export async function testPrePostFile(fileName: string, options?: {}) {
   const pathPreFile = path.join(pathPreFolder, fileName);
   const pathPostFile = path.join(pathPostFolder, fileName);
