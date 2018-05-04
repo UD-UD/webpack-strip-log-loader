@@ -1,16 +1,21 @@
 {
   "name": "webpack-strip-log-loader",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "webpack-strip-log-loader",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/bendtherules/webpack-strip-log-loader",
   "author": {
-    "name": "",
-    "email": "",
-    "url": ""
+    "name": "bendtherules",
+    "email": "abhasbhattacharya2@gmail.com",
+    "url": "https://github.com/bendtherules/webpack-strip-log-loader"
   },
   "keywords": [
-    ""
+    "webpack",
+    "webpack-loader",
+    "webpack-strip-loader",
+    "strip",
+    "remove",
+    "log"
   ],
   "files": [
     "lib"
