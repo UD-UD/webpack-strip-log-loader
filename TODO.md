@@ -9,8 +9,9 @@ Important
 - [X] Add options for global restricted import/require module names.
 - [X] Write actual passing tests with pre/post files
 - [ ] Setup CI
-- [ ] Test usage with actual webpack projects
-- [ ] Fix readme with more usage instructions
+- [X] Test usage with actual webpack projects
+- [X] Fix readme with more usage instructions
+- [ ] Remove debug logs
 - [ ] Publish to npm v1
 
 Extras
