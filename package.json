@@ -40,7 +40,7 @@
     "webpack": "^4.6.0"
   },
   "peerDependencies": {
-    "webpack": "^3.10.0"
+    "webpack": "^3.0.0||^4.0.0"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
