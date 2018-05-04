@@ -1,5 +1,4 @@
 import * as ts from 'byots';
-import { WSASYSCALLFAILURE } from 'constants';
 
 export const nodeToString = (
   node: ts.Node,
