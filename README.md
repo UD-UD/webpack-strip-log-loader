@@ -18,8 +18,8 @@ Example 1 :
 
 Removes logger module and its usage
 
-```javascript
-// Pre 
+Pre: 
+```javascript 
 import {Logger, defaultLogger} from 'logger'; // strip-log
 
 const myLogger = new Logger({level: 2});
@@ -31,8 +31,8 @@ myLogger.debug(someInt);
 defaultLogger.log(someInt2);
 ```
 
-```javascript
-// Post 
+Post: 
+```javascript 
 var someInt = 123;
 var someInt2 = someInt * 2;
 ```
@@ -43,8 +43,8 @@ Example 2 :
 Removes console.* usage
 
 
-```javascript
-// Pre 
+Pre: 
+```javascript 
 console; // strip-log
 
 function abc() {
@@ -55,8 +55,8 @@ function abc() {
 }
 ```
 
-```javascript
-// Post 
+Post: 
+```javascript 
 function abc() {
     var someObj = {};
     
@@ -230,16 +230,16 @@ This is equivalent to marking all import statements to "some-logger" in all file
 Following type of language constructs are looped through to find more restricted expression or symbol.
 #### A. Function call
 
+Pre: 
 ```js
-// ## Pre ##
 import defaultLogger from 'some-logger';// strip-log
 defaultLogger('Init');
 
 someOtherFunction();
 ```
 
+Post: 
 ```js
-// ## Post ##
 // strip-log
 
 
@@ -250,8 +250,8 @@ The whole function call expression for `defautLogger` becomes a restricted expre
 
 #### B. Simple assignment
 
+Pre: 
 ```js
-// ## Pre ##
 import defaultLogger from 'some-logger';// strip-log
 
 var logger = defaultLogger;
@@ -260,8 +260,8 @@ var a = 1; // some other assignment
 logger('Init');
 ```
 
+Post: 
 ```js
-// ## Post ##
 // strip-log
 
 
@@ -273,8 +273,8 @@ The variable/symbol `logger` also becomes restricted as it was assigned to the s
 
 #### C. New call
 
+Pre: 
 ```js
-// ## Pre ##
 import Logger from 'some-logger'; // strip-log
 
 var someLogger = new Logger({level:3});
@@ -283,8 +283,8 @@ someLogger('Init');
 var a = new List(); // some other new call
 ```
 
+Post: 
 ```js
-// ## Post ##
 // strip-log
 
 
@@ -297,16 +297,16 @@ The variable/symbol `someLogger` becomes restricted as it was assigned to the ne
 
 #### D. Property access (by dot notation)
 
+Pre: 
 ```js
-// ## Pre ##
 import defaultLogger from 'some-logger';// strip-log
 defaultLogger.log('Init');
 
 someOtherFunction();
 ```
 
+Post: 
 ```js
-// ## Post ##
 // strip-log
 
 someOtherFunction();
@@ -321,8 +321,8 @@ Any restricted expression has to get removed during build. But replacing any exp
 
 Consider the following:
 
+Pre: 
 ```js
-// ## Pre ##
 import LogError from 'some-logger';
 
 throw new LogError('Output stream not found');
@@ -331,8 +331,8 @@ throw new LogError('Output stream not found');
 If we just replaced the restricted new expression with blank, it would look like:
 
 
+Post: 
 ```js
-// ## Post ##
 import LogError from 'some-logger';
 
 throw ;
