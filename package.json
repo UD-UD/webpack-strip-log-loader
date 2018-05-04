@@ -42,7 +42,7 @@
     "array.prototype.flatmap": "^1.2.1",
     "byots": "2.7.0-dev.20171209.9.18",
     "loader-utils": "^1.1.0",
-    "webpack": "^4.6.0"
+    "typescript": "^2.3.0"
   },
   "peerDependencies": {
     "webpack": "^3.0.0||^4.0.0"
@@ -70,7 +70,6 @@
     "ts-node": "^3.2.0",
     "tslint": "^5.0.0",
     "tslint-config-prettier": "^1.1.0",
-    "typescript": "^2.3.0",
     "webpack-cli": "^2.0.15",
     "webpack-dev-server": "^2.11.1"
   },
