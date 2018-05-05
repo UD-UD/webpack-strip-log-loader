@@ -7,3 +7,4 @@ yarn-error.log*
 lib
 lib_test
 dist
+webpack-strip-log-loader-*.tgz
