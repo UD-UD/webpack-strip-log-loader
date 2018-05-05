@@ -33,10 +33,13 @@
     "dev": "webpack-dev-server --progress --open-page dist/",
     "demo": "npm run build && http-server dist -o",
     "test": "jest",
+    "test:loud": "cross-env NODE_ENV=debug npm run test",
     "coverage": "jest --coverage",
     "watch": "npm run build -- --watch",
     "watch:test": "jest --watch",
+    "watch:test:loud": "cross-env NODE_ENV=debug npm run watch:test",
     "watch:test-cov": "jest --watch --coverage",
+    "watch:test-cov:loud": "cross-env NODE_ENV=debug npm run watch:test-cov",
     "list:test": "jest --listTests"
   },
   "dependencies": {
