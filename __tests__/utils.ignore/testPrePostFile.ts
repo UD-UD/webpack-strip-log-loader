@@ -32,7 +32,7 @@ export async function testPrePostFile(fileName: string, options?: {}) {
   const postFileContent = fs.readFileSync(pathPostFile).toString();
 
   const endTime = Number(new Date());
-  logger.debug(`Test file process time: ${(endTime - startTime)/1000} secs`);
+  logger.debug(`Test file process time: ${(endTime - startTime) / 1000} secs`);
 
   return { transformedPreFileContent, postFileContent };
 }
