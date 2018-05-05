@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+var WebpackStrip = require('strip-loader');
 
 module.exports = {
   mode: 'development',
@@ -20,7 +21,8 @@ module.exports = {
     rules: [
       { test: /\.js$/, loader: 'babel-loader' },
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-      { test: /\.tsx?$/, loader: 'babel-loader!ts-loader' }
+      { test: /\.tsx?$/, loader: 'babel-loader!ts-loader' },
+      { test: /(\.jsx?)|(\.tsx?)$/, loader: WebpackStrip.loader('debug', 'console.log') }
     ]
   },
   plugins: [
