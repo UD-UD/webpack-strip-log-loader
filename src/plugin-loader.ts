@@ -133,7 +133,6 @@ class PluginLoader {
           isNodeCommentTrigger(tmpImportClause, this.mainSourceFile) ||
           this.isImportModuleNameRestrictedGlobally(tmpImportClause)
         ) {
-
           logger.trace(
             `Checking import statement: ${nodeToString(
               tmpImportClause,
@@ -557,7 +556,6 @@ class PluginLoader {
   }
 
   private logFindDetails(expressions: ts.Node[]) {
-
     logger.debug(
       'Found symbols: ',
       [...this.restrictedSymbols]
@@ -623,7 +621,7 @@ class PluginLoader {
             currentExpr.getEnd() <= prevExpr.getEnd()
           ) {
             // When current expr is completely contained in prev expr
-            
+
             logger.trace(
               `Skipping expression as it is completely contained: ${nodeToString(
                 currentExpr,
