@@ -1,13 +1,24 @@
-// tslint:disable-next-line:ordered-imports
 import * as ts from 'byots';
 import * as fs from 'fs';
 import { getOptions, OptionObject } from 'loader-utils';
 import * as path from 'path';
 import * as tmp from 'tmp';
 import { loader as WebpackLoader } from 'webpack';
+import * as logger from 'loglevel';
+
 // tslint:disable-next-line:no-var-requires
 const flatMap = require('array.prototype.flatmap');
+
+// Setup modules
 flatMap.shim();
+
+if (process.env.NODE_ENV === 'trace') {
+  logger.setDefaultLevel(logger.levels.TRACE);
+} else if (process.env.NODE_ENV === 'debug') {
+  logger.setDefaultLevel(logger.levels.DEBUG);
+} else {
+  logger.setDefaultLevel(logger.levels.ERROR);
+}
 
 import {
   nodeToString,
@@ -73,7 +84,7 @@ class PluginLoader {
   }
 
   private initTypescriptCompiler(): void {
-    // console.log(this.sourceText);
+    logger.trace(`Input file content: \n ${this.sourceText}`);
 
     // Create new tmp file
     this.tmpFile = tmp.fileSync({
@@ -122,12 +133,13 @@ class PluginLoader {
           isNodeCommentTrigger(tmpImportClause, this.mainSourceFile) ||
           this.isImportModuleNameRestrictedGlobally(tmpImportClause)
         ) {
-          // console.log(
-          //   `Checking import statement: ${nodeToString(
-          //     tmpImportClause,
-          //     this.mainSourceFile
-          //   )}`
-          // );
+
+          logger.trace(
+            `Checking import statement: ${nodeToString(
+              tmpImportClause,
+              this.mainSourceFile
+            )}`
+          );
 
           this.restrictedExpressions.add(tmpImportClause);
 
@@ -376,9 +388,10 @@ class PluginLoader {
     const expressionsFromSymbols = [...this.restrictedSymbols].flatMap(symbol =>
       this.findExpressionsWhichUseSymbol(symbol)
     );
-    // console.log(
-    //   `Expression from symbols count: ${expressionsFromSymbols.length}`
-    // );
+
+    logger.trace(
+      `Expression from symbols count: ${expressionsFromSymbols.length}`
+    );
 
     expressionsFromSymbols.forEach(expr =>
       this.restrictedExpressions.add(expr)
@@ -434,11 +447,12 @@ class PluginLoader {
       // if new expression
       if (ts.isNewExpression(node)) {
         // new expression()
-        // // tslint:disable-next-line:no-console
-        // console.log(
-        //   'New expression check:',
-        //   nodeToString(node, this.mainSourceFile as ts.SourceFile)
-        // );
+
+        logger.trace(
+          'New expression check:',
+          nodeToString(node, this.mainSourceFile as ts.SourceFile)
+        );
+
         const expressionIdentifier = node.expression;
         const expressionSymbol = this.tsChecker.getSymbolAtLocation(
           expressionIdentifier
@@ -475,11 +489,12 @@ class PluginLoader {
       // if call expression
       if (ts.isCallExpression(node)) {
         // expression()
-        // // tslint:disable-next-line:no-console
-        // console.log(
-        //   'Call expression check:',
-        //   nodeToString(node, this.mainSourceFile as ts.SourceFile)
-        // );
+
+        logger.trace(
+          'Call expression check:',
+          nodeToString(node, this.mainSourceFile as ts.SourceFile)
+        );
+
         const expressionIdentifier = node.expression;
         const expressionSymbol = this.tsChecker.getSymbolAtLocation(
           expressionIdentifier
@@ -542,15 +557,16 @@ class PluginLoader {
   }
 
   private logFindDetails(expressions: ts.Node[]) {
-    // tslint:disable-next-line:no-console
-    console.log(
+
+    logger.debug(
+      'Found symbols: ',
       [...this.restrictedSymbols]
         .map(tmpSymbol => tmpSymbol.getName())
         .join(', ')
     );
 
-    // tslint:disable-next-line:no-console
-    console.log(
+    logger.debug(
+      'Found expressions: ',
       expressions
         .map(expr => nodeToString(expr, this.mainSourceFile as ts.SourceFile))
         .join(', ')
@@ -607,13 +623,14 @@ class PluginLoader {
             currentExpr.getEnd() <= prevExpr.getEnd()
           ) {
             // When current expr is completely contained in prev expr
-            // tslint:disable-next-line:no-console
-            // console.log(
-            //   `Skipping expression as it is completely contained: ${nodeToString(
-            //     currentExpr,
-            //     this.mainSourceFile
-            //   )}`
-            // );
+            
+            logger.trace(
+              `Skipping expression as it is completely contained: ${nodeToString(
+                currentExpr,
+                this.mainSourceFile
+              )}`
+            );
+
             continue;
           } else {
             // There is non-contained overlap
