@@ -19,10 +19,10 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /(\.jsx?)|(\.tsx?)$/, loader: WebpackStrip.loader('debug', 'console.log') },
       { test: /\.js$/, loader: 'babel-loader' },
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
       { test: /\.tsx?$/, loader: 'babel-loader!ts-loader' },
-      { test: /(\.jsx?)|(\.tsx?)$/, loader: WebpackStrip.loader('debug', 'console.log') }
     ]
   },
   plugins: [
