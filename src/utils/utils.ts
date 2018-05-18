@@ -143,10 +143,6 @@ export const getComments = (
   } else {
     return [];
   }
-}
-
-
-return [];
 };
 
 // export function cloneNode(node: any): any {
