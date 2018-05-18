@@ -1,6 +1,6 @@
 // start
- // strip-log
- // strip-log
+
+
 
 import * as HelloWorld from 'helloWorld';
 
@@ -22,7 +22,7 @@ HelloWorld.log('should not be removed');
 function nothing() {
     {
         
-         // strip-log
+        
         
     }
 }
