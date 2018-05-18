@@ -1,9 +1,7 @@
 
-
 function someThing() {
     
 }
-
 
 
 var someVar = 5;

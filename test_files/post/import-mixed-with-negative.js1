@@ -1,6 +1,4 @@
-
 import * as Logger from 'logger2';
-
 
 var someVar = 5;
 console.log(someVar);
