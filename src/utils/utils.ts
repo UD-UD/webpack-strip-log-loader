@@ -104,11 +104,11 @@ export function findParentOrSelfNode<T extends ts.Node>(
   }
 }
 
-export const getComments = (
+export const getCommentRanges = (
   node: ts.Node,
   sourceString: string,
   isTrailing: boolean = false
-): string[] => {
+): ts.CommentRange[] | undefined => {
   if (node.parent) {
     const nodePos = isTrailing ? node.end : node.pos;
     const parentPos = isTrailing ? node.parent.end : node.parent.pos;
@@ -121,17 +121,32 @@ export const getComments = (
         ? ts.getTrailingCommentRanges(sourceString, nodePos)
         : ts.getLeadingCommentRanges(sourceString, nodePos);
 
-      if (typeof comments !== 'undefined') {
-        const commentStrings = comments.map<string>(comment => {
-          // comment.type = syntaxKind[comment.kind];
-          return sourceString.substring(comment.pos, comment.end);
-        });
-        return commentStrings;
-      }
+      return comments;
     }
   }
+}
 
-  return [];
+export const getComments = (
+  node: ts.Node,
+  sourceString: string,
+  isTrailing: boolean = false
+): string[] => {
+
+  const comments = getCommentRanges(node, sourceString, isTrailing);
+
+  if (typeof comments !== 'undefined') {
+    const commentStrings = comments.map<string>(comment => {
+      // comment.type = syntaxKind[comment.kind];
+      return sourceString.substring(comment.pos, comment.end);
+    });
+    return commentStrings;
+  } else {
+    return [];
+  }
+}
+
+
+return [];
 };
 
 // export function cloneNode(node: any): any {
