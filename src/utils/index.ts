@@ -4,4 +4,6 @@ export {
   findChildNodes,
   findParentOrSelfNode,
   getComments,
+  getNodeStart,
+  getNodeEnd,
 } from './utils';

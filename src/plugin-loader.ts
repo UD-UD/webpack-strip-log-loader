@@ -26,6 +26,8 @@ import {
   findChildNodes,
   findParentOrSelfNode,
   getComments,
+  getNodeEnd,
+  getNodeStart,
 } from './utils';
 
 const ignoreRegex = /^\/\/(\W*)strip-log(\W*)$/i;
@@ -587,14 +589,14 @@ class PluginLoader {
       }) as ts.Statement[];
 
     const revSortedExpressions = toRemoveExpressions.sort((expr1, expr2) => {
-      if (expr1.getEnd() !== expr2.getEnd()) {
-        if (expr1.getEnd() > expr2.getEnd()) {
+      if (getNodeEnd(expr1) !== getNodeEnd(expr2)) {
+        if (getNodeEnd(expr1) > getNodeEnd(expr2)) {
           return -1;
         } else {
           return +1;
         }
       } else {
-        if (expr1.getStart() < expr2.getStart()) {
+        if (getNodeStart(expr1) < getNodeStart(expr2)) {
           return -1;
         } else {
           return +1;
@@ -614,11 +616,11 @@ class PluginLoader {
 
       if (exprIndex > 0) {
         const prevExpr = revSortedExpressions[exprIndex - 1];
-        if (currentExpr.getEnd() > prevExpr.getStart()) {
+        if (getNodeEnd(currentExpr) > getNodeStart(prevExpr)) {
           // When there is overlap
           if (
-            currentExpr.getStart() >= prevExpr.getStart() &&
-            currentExpr.getEnd() <= prevExpr.getEnd()
+            getNodeStart(currentExpr) >= getNodeStart(prevExpr) &&
+            getNodeEnd(currentExpr) <= getNodeEnd(prevExpr)
           ) {
             // When current expr is completely contained in prev expr
 
@@ -640,9 +642,9 @@ class PluginLoader {
       }
 
       newText =
-        newText.slice(0, currentExpr.getStart()) +
+        newText.slice(0, getNodeStart(currentExpr)) +
         '' + // Replace with empty string
-        newText.slice(currentExpr.getEnd());
+        newText.slice(getNodeEnd(currentExpr));
     }
 
     return newText;

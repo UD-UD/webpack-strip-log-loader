@@ -124,14 +124,13 @@ export const getCommentRanges = (
       return comments;
     }
   }
-}
+};
 
 export const getComments = (
   node: ts.Node,
   sourceString: string,
   isTrailing: boolean = false
 ): string[] => {
-
   const comments = getCommentRanges(node, sourceString, isTrailing);
 
   if (typeof comments !== 'undefined') {
@@ -144,6 +143,28 @@ export const getComments = (
     return [];
   }
 };
+
+export function getNodeStart(exp: ts.Node, sourceString?: string) {
+  return exp.getStart();
+}
+
+export function getNodeEnd(exp: ts.Node, sourceString?: string) {
+  if (sourceString === undefined) {
+    sourceString = exp.getSourceFile().getFullText();
+  }
+
+  const endPositions: number[] = [];
+  endPositions.push(exp.getEnd());
+
+  const comments = getCommentRanges(exp, sourceString, true);
+  if (comments !== undefined) {
+    comments.forEach(commentRange => {
+      endPositions.push(commentRange.end);
+    });
+  }
+
+  return Math.max(...endPositions);
+}
 
 // export function cloneNode(node: any): any {
 //   if (ts.isObjectLiteralExpression(node)) {
