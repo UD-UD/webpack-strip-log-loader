@@ -641,10 +641,20 @@ class PluginLoader {
         }
       }
 
+      const startPosition = getNodeStart(currentExpr);
+      let endPosition = getNodeEnd(currentExpr);
+
+      // Include following newlines in the replacement region
+      if (newText.slice(endPosition, endPosition + 1) === "\n") {
+        endPosition += 1;
+      } else if (newText.slice(endPosition, endPosition + 2) === "\r\n") {
+        endPosition += 2;
+      }
+
       newText =
-        newText.slice(0, getNodeStart(currentExpr)) +
+        newText.slice(0, startPosition) +
         '' + // Replace with empty string
-        newText.slice(getNodeEnd(currentExpr));
+        newText.slice(endPosition);
     }
 
     return newText;
