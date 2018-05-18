@@ -11,3 +11,14 @@ test('Removes explicitly marked symbol', async () => {
 
   expect(transformedPreFileContent).toBe(postFileContent);
 });
+
+// Explicit marked symbols
+
+test('Removes explicitly marked symbols', async () => {
+  const fileName = 'remove-explicit-marked-symbols.js1';
+  const { transformedPreFileContent, postFileContent } = await testPrePostFile(
+    fileName
+  );
+
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
