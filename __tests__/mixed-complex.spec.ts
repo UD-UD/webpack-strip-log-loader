@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { testPrePostFile } from './utils.ignore';
 
-jest.setTimeout(15000);
+jest.setTimeout(25000);
 
 // Mixed many kind of tests
 

@@ -1,4 +1,4 @@
-import * as abc from 'assert';
+import * as abc from 'assertFake';
 
 var someVar = 5;
 abc(someVar).toBe(5);
