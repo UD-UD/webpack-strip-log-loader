@@ -1,6 +1,8 @@
 import * as path from 'path';
 import { testPrePostFile } from './utils.ignore';
 
+jest.setTimeout(15000);
+
 // Mixed many kind of tests
 
 test('Removes mixed combination of constructs', async () => {

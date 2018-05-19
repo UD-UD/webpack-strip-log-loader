@@ -1,6 +1,8 @@
 import * as path from 'path';
 import { testPrePostFile } from './utils.ignore';
 
+jest.setTimeout(15000);
+
 // Import tests
 
 test('Removes default import statement', async () => {

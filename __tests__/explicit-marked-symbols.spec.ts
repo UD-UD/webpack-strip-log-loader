@@ -1,6 +1,8 @@
 import * as path from 'path';
 import { testPrePostFile } from './utils.ignore';
 
+jest.setTimeout(15000);
+
 // Explicit marked symbol
 
 test('Removes explicitly marked symbol', async () => {
