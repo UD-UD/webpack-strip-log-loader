@@ -30,7 +30,7 @@
     "prepublishOnly": "npm run build",
     "prebuild": "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
     "build": "tsc --pretty && webpack",
-    "build-lib": "tsc --pretty",
+    "build-lib": "npm run prebuild && tsc --pretty",
     "dev": "webpack-dev-server --progress --open-page dist/",
     "demo": "npm run build && http-server dist -o",
     "test": "jest",
