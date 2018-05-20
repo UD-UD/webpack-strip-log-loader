@@ -645,9 +645,9 @@ class PluginLoader {
       let endPosition = getNodeEnd(currentExpr);
 
       // Include following newlines in the replacement region
-      if (newText.slice(endPosition, endPosition + 1) === "\n") {
+      if (newText.slice(endPosition, endPosition + 1) === '\n') {
         endPosition += 1;
-      } else if (newText.slice(endPosition, endPosition + 2) === "\r\n") {
+      } else if (newText.slice(endPosition, endPosition + 2) === '\r\n') {
         endPosition += 2;
       }
 
