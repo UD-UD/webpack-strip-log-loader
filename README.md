@@ -6,6 +6,8 @@
 
 # webpack-strip-log-loader
 
+[![Build Status](https://travis-ci.org/bendtherules/webpack-strip-log-loader.svg?branch=master)](https://travis-ci.org/bendtherules/webpack-strip-log-loader)
+
 A webpack loader to remove import and other statements containing reference to a module (usually, logger module).
 
 ## Use case
