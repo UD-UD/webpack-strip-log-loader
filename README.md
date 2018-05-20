@@ -6,7 +6,7 @@
 
 # webpack-strip-log-loader
 
-[![Build Status](https://travis-ci.org/bendtherules/webpack-strip-log-loader.svg?branch=master)](https://travis-ci.org/bendtherules/webpack-strip-log-loader)
+[![Travis](https://img.shields.io/travis/bendtherules/webpack-strip-log-loader.svg?style=for-the-badge)](https://travis-ci.org/bendtherules/webpack-strip-log-loader)
 [![npm](https://img.shields.io/npm/v/webpack-strip-log-loader.svg?style=for-the-badge)](https://www.npmjs.com/package/webpack-strip-log-loader)
 
 A webpack loader to remove import and other statements containing reference to a module (usually, logger module).
