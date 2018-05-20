@@ -8,16 +8,16 @@ Important
 - [X] Allow marking any symbol as "ignored"
 - [X] Add options for global restricted import/require module names.
 - [X] Write actual passing tests with pre/post files
-- [ ] Setup CI
+- [X] Setup Travis CI
 - [X] Test usage with actual webpack projects
 - [X] Fix readme with more usage instructions
-- [ ] Remove debug logs
-- [ ] Publish to npm v1
+- [X] Remove debug logs with log scoping
+- [X] Publish to npm v1
 
 Extras
 ---------
 
-- [ ] Remove strip-log comment
+- [X] Remove strip-log comment
 - [ ] Investigate Array flatmap shim + typescript building 
 - [ ] Rename ignore to 'strip-log[: boolean]'.(DONE) Allow optional boolean for local overload.
 - [ ] Allow comment regex patern to overload 'change-log' (Will allow more complicated mixed comment patterns) ?
