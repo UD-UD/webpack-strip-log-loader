@@ -243,8 +243,6 @@ someOtherFunction();
 
 Post: 
 ```js
-// strip-log
-
 
 someOtherFunction();
 ```
@@ -265,11 +263,8 @@ logger('Init');
 
 Post: 
 ```js
-// strip-log
-
 
 var a = 1; // some other assignment
-
 
 ```
 The variable/symbol `logger` also becomes restricted as it was assigned to the same value as `defaultLogger`, which is a restricted symbol. Hence, function calls to `logger` would also be marked as restricted expression.
@@ -288,9 +283,6 @@ var a = new List(); // some other new call
 
 Post: 
 ```js
-// strip-log
-
-
 
 
 var a = new List(); // some other new call
@@ -310,7 +302,6 @@ someOtherFunction();
 
 Post: 
 ```js
-// strip-log
 
 someOtherFunction();
 ```
@@ -381,5 +372,5 @@ We are eager to help the community by building better tools.
 ## Thanks
 
 Lots of thanks to 
-* FusionCharts (my employer) for letting me build this during office hours 
+* FusionCharts for letting me build this during office hours 
 * And my colleagues there for the awesome ideas and feedback regarding this project
