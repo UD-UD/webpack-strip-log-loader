@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as webpack from 'webpack';
+import path from 'path';
+import webpack from 'webpack';
 // tslint:disable-next-line:no-var-requires
 const memoryfs = require('memory-fs');
 

@@ -4,8 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "lib": [
-      "esnext", 
-      "dom"
+      "esnext",
     ],
     "target": "es2015",
     "strict": true,
@@ -13,6 +12,7 @@
     "preserveConstEnums": true,
     "removeComments": true,
     "inlineSourceMap": true,
+    "esModuleInterop": true,
     "typeRoots": [
       "./node_modules/@types"
     ]
