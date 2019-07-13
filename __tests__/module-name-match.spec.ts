@@ -29,8 +29,8 @@ test('Matches modules with relative path - glob pattern', async () => {
   expect(transformedPreFileContent).toBe(postFileContent);
 });
 
-test('Matches modules with non-js extension - exact string match', async () => {
-  const fileName = 'module-name-assets.js1';
+test('Matches modules with non-js extension (global) - exact string match', async () => {
+  const fileName = 'module-name-assets-global.js1';
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
     fileName,
     {
@@ -41,8 +41,8 @@ test('Matches modules with non-js extension - exact string match', async () => {
   expect(transformedPreFileContent).toBe(postFileContent);
 });
 
-test('Matches modules with non-js extension - glob pattern', async () => {
-  const fileName = 'module-name-assets.js1';
+test('Matches modules with non-js extension (relative) - glob pattern', async () => {
+  const fileName = 'module-name-assets-global.js1';
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
     fileName,
     {
