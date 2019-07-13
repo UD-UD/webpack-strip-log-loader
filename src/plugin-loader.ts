@@ -149,7 +149,7 @@ class PluginLoader {
           if (tmpImportClause.importClause) {
             if (tmpImportClause.importClause.name) {
               // Handle `import abc from 'xyz';`
-  
+
               const importedSymbol = this.tsChecker.getSymbolAtLocation(
                 tmpImportClause.importClause.name
               );
@@ -157,14 +157,14 @@ class PluginLoader {
                 this.restrictedSymbols.add(importedSymbol);
               }
             }
-  
+
             // Handle named bindings
             if (tmpImportClause.importClause.namedBindings) {
               if (
                 ts.isNamespaceImport(tmpImportClause.importClause.namedBindings)
               ) {
                 // Handle `import * as ts from 'byots';`
-  
+
                 const importedSymbol = this.tsChecker.getSymbolAtLocation(
                   tmpImportClause.importClause.namedBindings.name
                 );
@@ -175,7 +175,7 @@ class PluginLoader {
                 ts.isNamedImports(tmpImportClause.importClause.namedBindings)
               ) {
                 // Handle `import { loader as WebpackLoader, abc } from 'webpack';`
-  
+
                 for (const tmpImportSpecifier of tmpImportClause.importClause
                   .namedBindings.elements) {
                   const importedSymbol = this.tsChecker.getSymbolAtLocation(
