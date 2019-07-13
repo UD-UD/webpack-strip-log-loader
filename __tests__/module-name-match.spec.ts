@@ -41,12 +41,36 @@ test('Matches modules with non-js extension (global) - exact string match', asyn
   expect(transformedPreFileContent).toBe(postFileContent);
 });
 
-test('Matches modules with non-js extension (relative) - glob pattern', async () => {
+test('Matches modules with non-js extension (global) - glob pattern', async () => {
   const fileName = 'module-name-assets-global.js1';
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
     fileName,
     {
       modules: ['style-*'],
+    }
+  );
+
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
+
+test('Matches modules with non-js extension (relative) - exact string match', async () => {
+  const fileName = 'module-name-assets-relative.js1';
+  const { transformedPreFileContent, postFileContent } = await testPrePostFile(
+    fileName,
+    {
+      modules: ['./style-1.css', './style-2.less'],
+    }
+  );
+
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
+
+test('Matches modules with non-js extension (relative) - glob pattern', async () => {
+  const fileName = 'module-name-assets-relative.js1';
+  const { transformedPreFileContent, postFileContent } = await testPrePostFile(
+    fileName,
+    {
+      modules: ['./style-*'],
     }
   );
 
