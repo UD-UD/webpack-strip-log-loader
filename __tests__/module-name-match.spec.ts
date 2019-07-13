@@ -29,3 +29,27 @@ test('Matches modules with relative path - glob pattern', async () => {
 
   expect(transformedPreFileContent).toBe(postFileContent);
 });
+
+test('Matches modules with non-js extension - exact string match', async () => {
+  const fileName = 'module-name-assets.js1';
+  const { transformedPreFileContent, postFileContent } = await testPrePostFile(
+    fileName,
+    {
+      modules: ['./local-logger'],
+    }
+  );
+
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
+
+test('Matches modules with non-js extension - exact string match', async () => {
+  const fileName = 'module-name-assets.js1';
+  const { transformedPreFileContent, postFileContent } = await testPrePostFile(
+    fileName,
+    {
+      modules: ['./local-logger'],
+    }
+  );
+
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
