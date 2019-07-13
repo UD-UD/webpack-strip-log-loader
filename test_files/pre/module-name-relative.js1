@@ -1,0 +1,6 @@
+import log from './local-logger';// strip-log
+
+log('hello');
+
+var someVar = 5;
+console.log(someVar);
