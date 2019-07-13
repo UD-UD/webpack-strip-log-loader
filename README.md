@@ -211,7 +211,9 @@ After build, this "marking" statements will be removed.
 
 #### C. Loader config
 
-In webpack config file, pass options to this loader in the form of `{modules: string[] }` where modules is an array of globally restricted module names.
+In webpack config file, pass options to this loader in the form of `{modules: string[], matchOptions?: minimatch.IOptions }` where: 
+1. `modules` is an array of globally restricted module names (globs, matched using minimatch).
+2. `matchOptions`: options object as supported by minimatch (documented in https://github.com/isaacs/minimatch#options)
 
 This is equivalent to marking all import statements to "some-logger" in all files with comment strip-log.
 
@@ -231,6 +233,8 @@ This is equivalent to marking all import statements to "some-logger" in all file
     },
 ```
 
+Example of glob:
+Setting `"modules": "logger-*"` will remove both statements `import 'logger-1'; import log from 'logger-99';`
 
 
 ### 2. Using restricted symbols in language constructs
