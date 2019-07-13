@@ -42,7 +42,7 @@ test('Matches modules with non-js extension - exact string match', async () => {
   expect(transformedPreFileContent).toBe(postFileContent);
 });
 
-test('Matches modules with non-js extension - exact string match', async () => {
+test('Matches modules with non-js extension - glob pattern', async () => {
   const fileName = 'module-name-assets.js1';
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
     fileName,
