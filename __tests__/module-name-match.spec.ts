@@ -17,7 +17,6 @@ test('Matches modules with relative path - exact string match', async () => {
   expect(transformedPreFileContent).toBe(postFileContent);
 });
 
-
 test('Matches modules with relative path - glob pattern', async () => {
   const fileName = 'module-name-relative.js1';
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
