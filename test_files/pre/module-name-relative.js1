@@ -1,4 +1,4 @@
-import log from './local-logger';// strip-log
+import log from './local-logger';
 
 log('hello');
 
