@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as tmp from 'tmp';
 import { loader as WebpackLoader } from 'webpack';
 import * as logger from 'loglevel';
+import minimatch from 'minimatch';
 // tslint:disable-next-line:no-var-requires
 const flatMap = require('array.prototype.flatmap');
 
@@ -47,6 +48,7 @@ function isNodeCommentTrigger(node: ts.Node, sourceFile: ts.SourceFile) {
 // USE UTILS EVERYWHERE INSTEAD OF ts.forEachChild
 interface PluginLoaderOptions {
   modules: string[];
+  matchOptions?: minimatch.IOptions;
 }
 
 class PluginLoader {
@@ -254,7 +256,9 @@ class PluginLoader {
   ): boolean {
     if (ts.isStringLiteral(importClause.moduleSpecifier)) {
       const moduleName = importClause.moduleSpecifier.text;
-      return this.options.modules.includes(moduleName);
+      return this.options.modules.some(modulePattern =>
+        minimatch(moduleName, modulePattern, this.options.matchOptions)
+      );
     }
 
     return false;
