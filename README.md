@@ -160,6 +160,11 @@ The following types of statements are monitored for finding initial restricted s
 
 #### A. ES6 import and require calls (with strip-log comment)
 
+Side-effect import : 
+
+```js
+import 'some-css'; // strip-log
+```
 
 Default import : 
 

@@ -5,6 +5,15 @@ jest.setTimeout(15000);
 
 // Import tests
 
+test('Removes side-effect import statement', async () => {
+  const fileName = 'import-side-effect.js1';
+  const { transformedPreFileContent, postFileContent } = await testPrePostFile(
+    fileName
+  );
+
+  expect(transformedPreFileContent).toBe(postFileContent);
+});
+
 test('Removes default import statement', async () => {
   const fileName = 'import-default.js1';
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
