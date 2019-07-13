@@ -35,7 +35,7 @@ test('Matches modules with non-js extension - exact string match', async () => {
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
     fileName,
     {
-      modules: ['./local-logger'],
+      modules: ['style-1.css', 'style-2.less'],
     }
   );
 
@@ -47,7 +47,7 @@ test('Matches modules with non-js extension - glob pattern', async () => {
   const { transformedPreFileContent, postFileContent } = await testPrePostFile(
     fileName,
     {
-      modules: ['./local-logger'],
+      modules: ['style-*'],
     }
   );
 
