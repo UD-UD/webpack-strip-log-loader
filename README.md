@@ -92,7 +92,8 @@ module.exports = {
         use: 'webpack-strip-log-loader',
         // Options is optional and should include the module names whose usage (via import/require) will be stripped (in any matching file)
         options: {
-            modules: ["remove-module-name"]
+            modules: ["remove-module-name"], // supports glob patterns here
+            matchOptions: {} // optional, same as minimatch options
         }
       }
     ]
