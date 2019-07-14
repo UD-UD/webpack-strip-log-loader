@@ -6,7 +6,7 @@
 
 # webpack-strip-log-loader
 
-[![Travis](https://img.shields.io/travis/bendtherules/webpack-strip-log-loader.svg?style=for-the-badge)](https://travis-ci.org/bendtherules/webpack-strip-log-loader)
+[![Travis](https://img.shields.io/travis/bendtherules/webpack-strip-log-loader/master.svg?style=for-the-badge)](https://travis-ci.org/bendtherules/webpack-strip-log-loader)
 [![npm](https://img.shields.io/npm/v/webpack-strip-log-loader.svg?style=for-the-badge)](https://www.npmjs.com/package/webpack-strip-log-loader)
 
 A webpack loader to remove import and other statements containing reference to a module (usually, logger module).
@@ -92,7 +92,8 @@ module.exports = {
         use: 'webpack-strip-log-loader',
         // Options is optional and should include the module names whose usage (via import/require) will be stripped (in any matching file)
         options: {
-            modules: ["remove-module-name"]
+            modules: ["remove-module-name"], // supports glob patterns here
+            matchOptions: {} // optional, same as minimatch options
         }
       }
     ]
@@ -160,6 +161,11 @@ The following types of statements are monitored for finding initial restricted s
 
 #### A. ES6 import and require calls (with strip-log comment)
 
+Side-effect import : 
+
+```js
+import 'some-css'; // strip-log
+```
 
 Default import : 
 
@@ -206,7 +212,9 @@ After build, this "marking" statements will be removed.
 
 #### C. Loader config
 
-In webpack config file, pass options to this loader in the form of `{modules: string[] }` where modules is an array of globally restricted module names.
+In webpack config file, pass options to this loader in the form of `{modules: string[], matchOptions?: minimatch.IOptions }` where: 
+1. `modules` is an array of globally restricted module names (globs, matched using minimatch).
+2. `matchOptions`: options object as supported by minimatch (documented in https://github.com/isaacs/minimatch#options)
 
 This is equivalent to marking all import statements to "some-logger" in all files with comment strip-log.
 
@@ -226,6 +234,8 @@ This is equivalent to marking all import statements to "some-logger" in all file
     },
 ```
 
+Example of glob:
+Setting `"modules": "logger-*"` will remove both statements `import 'logger-1'; import log from 'logger-99';`
 
 
 ### 2. Using restricted symbols in language constructs
@@ -243,8 +253,6 @@ someOtherFunction();
 
 Post: 
 ```js
-// strip-log
-
 
 someOtherFunction();
 ```
@@ -265,11 +273,8 @@ logger('Init');
 
 Post: 
 ```js
-// strip-log
-
 
 var a = 1; // some other assignment
-
 
 ```
 The variable/symbol `logger` also becomes restricted as it was assigned to the same value as `defaultLogger`, which is a restricted symbol. Hence, function calls to `logger` would also be marked as restricted expression.
@@ -288,9 +293,6 @@ var a = new List(); // some other new call
 
 Post: 
 ```js
-// strip-log
-
-
 
 
 var a = new List(); // some other new call
@@ -310,7 +312,6 @@ someOtherFunction();
 
 Post: 
 ```js
-// strip-log
 
 someOtherFunction();
 ```
@@ -381,5 +382,5 @@ We are eager to help the community by building better tools.
 ## Thanks
 
 Lots of thanks to 
-* FusionCharts (my employer) for letting me build this during office hours 
+* FusionCharts for letting me build this during office hours 
 * And my colleagues there for the awesome ideas and feedback regarding this project

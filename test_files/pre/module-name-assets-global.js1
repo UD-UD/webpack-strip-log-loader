@@ -1,0 +1,5 @@
+import 'style-1.css';
+import 'style-2.less';
+
+var someVar = 5;
+console.log(someVar);
