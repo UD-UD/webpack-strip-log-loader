@@ -379,6 +379,13 @@ Please look into the scope before raising a new feature request. Having said tha
 
 We are eager to help the community by building better tools.
 
+## Publishing to npm
+
+1. Bump version and commit manually
+2. `npm publish` (builds internally)
+
+TODO: Move to a better one-command release, with git tags
+
 ## Thanks
 
 Lots of thanks to 
