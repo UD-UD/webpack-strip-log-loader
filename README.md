@@ -387,8 +387,17 @@ We are eager to help the community by building better tools.
 
 ## Publishing to npm
 
+One-step:
+
+Depending on required version bump, run one of these:
+
+`npm run <release-patch|release-minor|release-major>`
+
+These commands are just shortcut for:
+
 1. `npm version <patch|minor|major>`
 2. `npm publish`
+
 
 `npm version` will internally:
 

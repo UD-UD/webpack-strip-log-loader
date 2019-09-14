@@ -41,8 +41,11 @@
     "watch:test-cov": "jest --watch --coverage",
     "watch:test-cov:loud": "cross-env NODE_ENV=debug npm run watch:test-cov",
     "list:test": "jest --listTests",
-    "version": "npm run build && git add .",
-    "postversion": "git push --follow-tags"
+    "version": "run-s test build && git add .",
+    "postversion": "git push --follow-tags",
+    "release-patch": "npm version patch && npm publish",
+    "release-minor": "npm version minor && npm publish",
+    "release-major": "npm version major && npm publish"
   },
   "dependencies": {
     "array.prototype.flatmap": "^1.2.1",
