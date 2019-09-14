@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { compileTest } from './compiler';
 import * as logger from 'loglevel';
-import { start } from 'repl';
 
 // TODO: Remove duplicate code (also in plugin-loader) to custom log module
 if (process.env.NODE_ENV === 'trace') {
