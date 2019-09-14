@@ -32,6 +32,7 @@
     "build-lib": "npm run prebuild && tsc --pretty",
     "dev": "webpack-dev-server --progress --open-page dist/",
     "demo": "npm run build && http-server dist -o",
+    "pretest": "npm run build-lib",
     "test": "jest",
     "test:loud": "cross-env NODE_ENV=debug npm run test",
     "coverage": "jest --coverage",
