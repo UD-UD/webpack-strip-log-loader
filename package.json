@@ -1,6 +1,6 @@
 {
   "name": "webpack-strip-log-loader",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Remove log statements from any logging module",
   "license": "MIT",
   "repository": "https://github.com/bendtherules/webpack-strip-log-loader",
@@ -26,7 +26,7 @@
     "clean": "rimraf lib && rimraf coverage",
     "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
-    "prepare": "npm run build-lib",
+    "preinstall": "npm run build-lib",
     "prebuild": "run-s clean format lint && echo Using TypeScript && tsc --version",
     "build": "tsc --pretty && webpack",
     "build-lib": "npm run prebuild && tsc --pretty",
