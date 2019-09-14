@@ -27,8 +27,7 @@
     "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "prepare": "npm run build-lib",
-    "prepublishOnly": "npm run build",
-    "prebuild": "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
+    "prebuild": "run-s clean format lint && echo Using TypeScript && tsc --version",
     "build": "tsc --pretty && webpack",
     "build-lib": "npm run prebuild && tsc --pretty",
     "dev": "webpack-dev-server --progress --open-page dist/",
@@ -41,7 +40,9 @@
     "watch:test:loud": "cross-env NODE_ENV=debug npm run watch:test",
     "watch:test-cov": "jest --watch --coverage",
     "watch:test-cov:loud": "cross-env NODE_ENV=debug npm run watch:test-cov",
-    "list:test": "jest --listTests"
+    "list:test": "jest --listTests",
+    "version": "npm run build && git add .",
+    "postversion": "git push --follow-tags"
   },
   "dependencies": {
     "array.prototype.flatmap": "^1.2.1",
@@ -70,6 +71,7 @@
     "jest": "^22.0.4",
     "jest-environment-node-debug": "^2.0.0",
     "memory-fs": "^0.4.1",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.5.2",
     "rimraf": "^2.0.0",
     "ts-jest": "^22.4.3",

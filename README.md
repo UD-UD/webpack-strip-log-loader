@@ -387,10 +387,14 @@ We are eager to help the community by building better tools.
 
 ## Publishing to npm
 
-1. Bump version and commit manually
-2. `npm publish` (builds internally)
+1. `npm version <patch|minor|major>`
+2. `npm publish`
 
-TODO: Move to a better one-command release, with git tags
+`npm version` will internally:
+
+1. run test and build
+2. create version commit and tag
+3. git push with tags
 
 ## Thanks
 
